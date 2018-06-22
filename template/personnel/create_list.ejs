@@ -1,0 +1,155 @@
+ <% include top.ejs %>
+	
+      <div class="page-title">
+      <div class="title-env">
+        <h1 class="title">已结束任务</h1>
+        <p class="description">Has finished the task</p>
+      </div>
+      <div class="breadcrumb-env">
+        <ol class="breadcrumb bc-1">
+          <li> <a href="/personnel"><i class="fa-home"></i>首页</a> </li>
+			<li class="active">  <strong>已结束任务</strong></li>
+        </ol>
+      </div>
+    </div>
+    <div class="col-sm-12">
+<%if(task_data.length!==0){%>
+		<% for(var i=0;i<task_data.length;i++){	%>	
+      <div class="panel col-sm-12 panel-default">
+		<a href="/personnel/create_list/create_con/?id=<%= task_data[i].id %>&t_number=<%= task_data[i].t_number %>&p_number=<%= task_data[i].p_number %>" target="_self">
+        <div class="col-sm-6 border_right ">
+          <h3 class="row padding_b10"><%= task_data[i].t_name %></h3>
+          <div class="row">
+			 <p class="col-sm-3 padding-left-0">项目名称：<%=results[i].project_name %></p>
+			 <p class="col-sm-9">任务周期：<%= results[i].from %>  至  <%= results[i].to %>  共<%= results[i].cycle %>天</p>
+          </div>
+		<p class="row">[验证标准]路径：<%= task_data[i].val_path.replace(/\//g, '\\') %></p>	
+          <p class="row">任务内容：<%= task_data[i].detailed %></p>
+        </div>
+        <div class="col-sm-2 border_right">
+          <h4 class="col-sm-12 padding_b10">任务状态</h4>
+          <p class="col-sm-12">剩余制作时间：<b><%= results[i].last %> 天</b></p>
+          <p class="col-sm-12">当前完成进度：<b><%= task_data[i].t_plan %>%</b></p>
+          <p class="col-sm-12">当前制作状态：任务结束</p>
+        </div>
+        <div class="col-sm-2 border_right">
+          <h4 class="col-sm-12 padding_b10">实际状态</h4>
+          <p class="col-sm-12">驳回次数：<b>0</b>次</p>
+          <p class="col-sm-12">实际耗时：<b><%= task_data[i].consuming %> H</b></p>
+          <p class="col-sm-12">推迟次数：<b>0</b> 次</p>
+        </div>
+        <div class="col-sm-2">
+			<% if(task_data[i].state=="end"){%>
+          <canvas id="chart-area_<%= task_data[i].id %>"></canvas>
+			 
+			<%}%>
+        </div>
+		</a>  
+      </div>
+      <% }%>
+	<% }%>		 
+	</a> 	
+    </div>
+  
+  <!-- Main Footer --> 
+  <!-- Choose between footer styles: "footer-type-1" or "footer-type-2" --> 
+  <!-- Add class "sticky" to  always stick the footer to the end of page (if page contents is small) --> 
+  <!-- Or class "fixed" to  always fix the footer to the end of page -->
+   <% include footer.ejs %>
+  </div>
+</div>
+<div class="modal fade custom-width" id="modal-2">
+  <div class="modal-dialog" style="width: 60%;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">项目时间表</h4>
+      </div>
+      <div class="modal-body"> 时间表图片 </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-white" data-dismiss="modal">关闭</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Imported styles on this page -->
+<link rel="stylesheet" href="/www/assets/css/fonts/meteocons/css/meteocons.css">
+
+<!-- Bottom Scripts --> 
+<script src="/www/assets/js/bootstrap.min.js"></script> 
+<script src="/www/assets/js/TweenMax.min.js"></script> 
+<script src="/www/assets/js/resizeable.js"></script> 
+<script src="/www/assets/js/joinable.js"></script> 
+<script src="/www/assets/js/xenon-api.js"></script> 
+<script src="/www/assets/js/xenon-toggles.js"></script> 
+
+<!-- Imported scripts on this page --> 
+<script src="/www/assets/js/jvectormap/jquery-jvectormap-1.2.2.min.js"></script> 
+<script src="/www/assets/js/jvectormap/regions/jquery-jvectormap-world-mill-en.js"></script> 
+<script src="/www/assets/js/xenon-widgets.js"></script> 
+
+<!-- chart --> 
+<script src="/www/assets/js/chart/Chart.bundle.js"></script> 
+<script src="/www/assets/js/chart/utils.js"></script> 
+<script type="text/javascript">
+	 
+			var randomScalingFactor = function() {
+			return Math.round(Math.random() * 100);
+		};
+    <% for(var i=0;i<task_data.length;i++){	%>	
+	    <% if(task_data[i].state=="end" ){%>	
+		var config<%= task_data[i].id %> = {
+			type: 'doughnut',
+			data: {
+				datasets: [{
+					data: [
+						<%= results[i].unfinished %>, 
+						<%= task_data[i].t_plan %>,
+					],
+					backgroundColor: [
+						window.chartColors.red,
+						window.chartColors.blue,
+					],
+					label: 'Dataset 1'
+				}],
+				labels: [
+					'未完成',
+					'完成',
+				]
+			},
+			options: {
+					responsive: true,
+					legend: {
+					position:'right',
+					display: false,
+				},
+				title: {
+					display: false,
+					text: 'Chart.js Doughnut Chart'
+				},
+				animation: {
+					animateScale: true,
+					animateRotate: true
+				}
+			}
+		};
+		<%}%>	
+<%}%>	
+		$(function($) {
+		    <% for(var i=0;i<task_data.length;i++){	%>	
+				<% if(task_data[i].state=="end"){%>		
+					var ctx<%= task_data[i].id %> = document.getElementById('chart-area_<%= task_data[i].id %>').getContext('2d');
+					window.myDoughnut = new Chart(ctx<%= task_data[i].id %>, config<%= task_data[i].id %>);
+				<%}%>	
+		<%}%>
+		});
+	
+		var colorNames = Object.keys(window.chartColors);
+			
+ 
+	</script> 
+<!-- JavaScripts initializations and stuff --> 
+<script src="/www/assets/js/xenon-custom.js"></script>
+</body>
+</html>

@@ -1,0 +1,177 @@
+<% include top.ejs %>
+  <div class="page-title">
+    <div class="title-env">
+      <h1 class="title">项目列表</h1>
+      <p class="description">Create task</p>
+    </div>
+    <div class="breadcrumb-env">
+      <ol class="breadcrumb bc-1"> <li> <a href="/controller/"><i class="fa-home"></i>首页</a> </li>
+        <li class="active"> <strong>项目列表</strong> </li>
+      </ol>
+    </div>
+  </div>
+  <div class="panel panel-default">
+				 
+				<div class="panel-body">
+					<table class="table table-bordered table-striped" id="example-2">
+						<thead>
+							<tr>
+								<th class="no-sorting">
+									 ID
+								</th>
+								<th>项目名称</th>
+								<th>类型</th>
+								<th>制作周期</th>
+								<th>计划制作天数</th>
+								<th>实际制作天数</th>
+								<th>项目主管</th>
+								<th>项目团队</th>
+								<th>状态</th>
+								<th>总结</th>
+								<th>操作</th>
+							</tr>
+						</thead>
+						
+						<tbody class="middle-align">
+						 <% for(var i=0;i<project[0].length;i++){ %>
+							<tr>
+								<td><%=i+1%></td>
+								<td><%=project[0][i].p_name%></td>
+								<td><%=project[0][i].type%></td>
+								<td><%=results[i].form%>  至  <%=results[i].to%> </td>
+								<td><%=results[i].cycle%>天 </td>
+								<td><%=results[i].end_time%>天</td>
+								<td><a href="/controller/project/project_d_l?username=<%=project[0][i].head%>&p_number=<%=project[0][i].p_number%>" ><%=results[i].head%> </a></td>
+								<td>
+								<% for(var n=0;n<results[i].team.length;n++){ %>
+									 <a href="/controller/project/project_d_l?username=<%=results[i].team[n][0]%>&p_number=<%=project[0][i].p_number%>" ><%=results[i].team[n][1]%></a>,
+								<%}%>
+								</td>
+								<td><%=results[i].state%></td>
+								<td>
+									<%if(project[0][i].state=="ongoing"){%>
+										<a href="/controller/project/summary?p_number=<%=project[0][i].p_number%>" class="btn btn-secondary btn-sm btn-icon icon-left">
+											总结
+										</a>
+									<%}else{%>
+									<a href="#" class="btn btn-gray btn-sm btn-icon icon-left">
+											总结
+										</a>
+									<%}%>
+								</td>
+								<td>	
+									<a href="/controller/project/project_detailed?p_number=<%=project[0][i].p_number%>" class="btn btn-info btn-sm btn-icon icon-left">
+										查看
+									</a>
+									<%if(project[0][i].state=="ongoing"){%>
+										<a  onclick="jQuery('#modal-1').modal('show', {backdrop: 'static'});" data="<%=project[0][i].p_number%>"  class="btn btn-turquoise btn-sm p_end btn-icon icon-left">
+											结束
+										</a>
+									<%}%>
+									
+								</td>
+							</tr>
+							<% } %>
+							
+						</tbody>
+					</table>
+					
+				</div>
+			</div>
+  
+  <!-- Main Footer --> 
+  <!-- Choose between footer styles: "footer-type-1" or "footer-type-2" --> 
+  <!-- Add class "sticky" to  always stick the footer to the end of page (if page contents is small) --> 
+  <!-- Or class "fixed" to  always fix the footer to the end of page -->
+  <% include footer.ejs %>
+  </div>
+</div>
+<!-- Modal 1 (Basic)-->
+	<div class="modal fade" id="modal-1">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title">项目结束</h4>
+				</div>
+				
+				<div class="modal-body">
+					你确定要结束这个项目吗？
+				</div>
+				
+				<div class="modal-footer">
+					<button type="button" class="btn btn-white" data-dismiss="modal">返回</button>
+					<button type="button"  id="end_task" data=""  class="btn btn-info">确定</button>
+				</div>
+			</div>
+		</div>
+	</div>
+<script type="text/javascript">
+	
+				$(function(){
+					
+					$(".p_end").click(function(){
+						$("#end_task").attr("data",$(this).attr("data")); 
+						
+					});
+					
+					//任务结束
+				$("#end_task").click(function(){
+					var p_number=$("#end_task").attr("data");
+					 $.ajax({
+									//几个参数需要注意一下
+										type: "post",//方法类型
+										dataType: "json",//预期服务器返回的数据类型
+										url: "/controller/project/p_end" ,//url 
+										data: {
+												p_number:p_number,/*任务ID*/	
+												state:'end',/*状态*/	
+										},
+										success: function (result) {
+											
+										if (result.resultCode == 200) {
+												 window.location.href = '/controller/project'; 
+											} 
+										},
+										error : function() {
+											alert("异常！");
+										}
+									});
+					
+				});
+				})
+</script> 				  
+<!-- Imported styles on this page -->
+<link rel="stylesheet" href="/www/assets/js/daterangepicker/daterangepicker-bs3.css">
+<link rel="stylesheet" href="/www/assets/js/select2/select2.css">
+<link rel="stylesheet" href="/www/assets/js/select2/select2-bootstrap.css">
+<link rel="stylesheet" href="/www/assets/js/multiselect/css/multi-select.css">
+
+<!-- Bottom Scripts --> 
+<script src="/www/assets/js/bootstrap.min.js"></script> 
+<script src="/www/assets/js/TweenMax.min.js"></script> 
+<script src="/www/assets/js/resizeable.js"></script> 
+<script src="/www/assets/js/joinable.js"></script> 
+<script src="/www/assets/js/xenon-api.js"></script> 
+<script src="/www/assets/js/xenon-toggles.js"></script> 
+<script src="/www/assets/js/moment.min.js"></script> 
+
+<!-- Imported scripts on this page --> 
+<script src="/www/assets/js/daterangepicker/daterangepicker.js"></script> 
+<script src="/www/assets/js/datepicker/bootstrap-datepicker.js"></script> 
+<script src="/www/assets/js/timepicker/bootstrap-timepicker.min.js"></script> 
+<script src="/www/assets/js/colorpicker/bootstrap-colorpicker.min.js"></script> 
+<script src="/www/assets/js/select2/select2.min.js"></script> 
+<script src="/www/assets/js/jquery-ui/jquery-ui.min.js"></script> 
+<script src="/www/assets/js/selectboxit/jquery.selectBoxIt.min.js"></script> 
+<script src="/www/assets/js/tagsinput/bootstrap-tagsinput.min.js"></script> 
+<script src="/www/assets/js/typeahead.bundle.js"></script> 
+<script src="/www/assets/js/handlebars.min.js"></script> 
+<script src="/www/assets/js/multiselect/js/jquery.multi-select.js"></script> 
+
+<!-- JavaScripts initializations and stuff --> 
+<script src="/www/assets/js/xenon-custom.js"></script>
+</body>
+</html>
+

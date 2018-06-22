@@ -1,0 +1,141 @@
+ <% include top.ejs %>
+  <div class="page-title">
+    <div class="title-env">
+      <h1 class="title">新建账号</h1>
+      <p class="description">The new account</p>
+    </div>
+    <div class="breadcrumb-env">
+      <ol class="breadcrumb bc-1"> <li> <a href="/director/"><i class="fa-home"></i>首页</a> </li>
+        <li class="active"> <strong>新建账号</strong> </li>
+      </ol>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">新建账号</h3>
+        </div>
+        <div class="panel-body form-horizontal">
+ 
+            <div class="form-group">
+              <label class="col-sm-2 control-label" for="field-1">账号名</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="field-name" placeholder="请输入账号名" >
+              </div>
+            </div>
+            
+
+            <div class="form-group-separator"></div>
+            <div class="form-group">
+              <label class="col-sm-2 control-label" for="field-3">密　　码</label>
+              <div class="col-sm-10">
+                <input type="email" class="form-control" id="field-purpose" placeholder="请输入密码" >
+              </div>
+            </div>
+			<div class="form-group-separator"></div>
+            <div class="form-group">
+              <label class="col-sm-2 control-label" for="field-3">姓　　名</label>
+              <div class="col-sm-10">
+                <input type="email" class="form-control" id="field-size" placeholder="请输入姓名" value="">
+              </div>
+            </div>
+			<div class="form-group-separator"></div>
+            <div class="form-group">
+              <label class="col-sm-2 control-label" for="field-3">选择权限</label>
+              <div class="col-sm-10">
+                 <input class="icheck-11" type="radio" id="minimal-radio-1-11" name="minimal-radio-1" checked>
+                 <label for="minimal-radio-1-11">主管</label>
+				  &nbsp; &nbsp; &nbsp; &nbsp;
+                 <input tabindex="8" class="icheck-11" type="radio" id="minimal-radio-2-11" name="minimal-radio-1" >
+                 <label for="minimal-radio-2-11">员工</label>
+              </div>
+            </div> 
+             
+            <div class="form-group has-error">
+              <label class="col-sm-2"></label>
+              <div class="form-group col-sm-10 ">
+                <button id="form_post"  type="submit" class="btn btn-success">提交</button>
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script type="text/javascript">
+				$(function(){
+					$("#form_post").click(function(){
+				 
+						var oUsername=$("#field-name").val();
+						var oPassword =$("#field-purpose").val();
+						var oName_zh =$("#field-size").val();
+						var oType =null;
+						if($("#minimal-radio-1-11:checked").val()=="on"){
+							oType="controller";
+						}else{
+							oType="personnel";
+						}
+						if(oUsername!=="" && oPassword!=="" && oName_zh!=="" && oType!==""  ){
+									$.ajax({
+									//几个参数需要注意一下
+										type: "POST",//方法类型
+										dataType: "json",//预期服务器返回的数据类型
+										url: "/director/account/add" ,//url
+										data: {
+												username: oUsername,/*账号*/
+												password: oPassword,/*密码*/
+												name_zh: oName_zh,/*姓名*/
+												type: oType,/*权限*/
+												 
+										},
+										success: function (result) {
+											console.log(result);//打印服务端返回的数据(调试用)
+											if (result.resultCode == 200) {
+												alert("账号创建成功");
+												window.location.href = '/director/account'; 
+											};
+										},
+										error : function() {
+											alert("异常！");
+										}
+									});
+						   }else{
+						     alert("请填写完整！");
+						   }
+						
+						
+						}) ;
+				}) 
+					 
+					
+			 
+				</script>
+  <!-- Main Footer --> 
+  <!-- Choose between footer styles: "footer-type-1" or "footer-type-2" --> 
+  <!-- Add class "sticky" to  always stick the footer to the end of page (if page contents is small) --> 
+  <!-- Or class "fixed" to  always fix the footer to the end of page -->
+      <% include footer.ejs %>
+  </div>
+</div>
+ 
+ 
+<!-- Imported styles on this page -->
+<link rel="stylesheet" href="/www/assets/js/daterangepicker/daterangepicker-bs3.css">
+<link rel="stylesheet" href="/www/assets/js/select2/select2.css">
+<link rel="stylesheet" href="/www/assets/js/select2/select2-bootstrap.css">
+<link rel="stylesheet" href="/www/assets/js/multiselect/css/multi-select.css">
+
+<!-- Bottom Scripts --> 
+<script src="/www/assets/js/bootstrap.min.js"></script> 
+<script src="/www/assets/js/TweenMax.min.js"></script> 
+<script src="/www/assets/js/resizeable.js"></script> 
+<script src="/www/assets/js/joinable.js"></script> 
+<script src="/www/assets/js/xenon-api.js"></script> 
+<script src="/www/assets/js/xenon-toggles.js"></script> 
+<script src="/www/assets/js/moment.min.js"></script> 
+ 
+
+<!-- JavaScripts initializations and stuff --> 
+<script src="/www/assets/js/xenon-custom.js"></script>
+</body>
+</html>

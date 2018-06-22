@@ -1,0 +1,153 @@
+<% include top.ejs %>
+  <div class="page-title">
+    <div class="title-env">
+      <h1 class="title">账号列表</h1>
+      <p class="description">Account list</p>
+    </div>
+    <div class="breadcrumb-env">
+      <ol class="breadcrumb bc-1"> <li> <a href="/account/"><i class="fa-home"></i>首页</a> </li>
+        <li class="active"> <strong>账号列表</strong> </li>
+      </ol>
+    </div>
+  </div>
+  <div class="panel panel-default">
+				 
+				<div class="panel-body">
+					<table class="table table-bordered table-striped" id="example-2">
+						<thead>
+							<tr>
+								<th class="no-sorting">
+									 ID
+								</th>
+								<th>账号名</th>
+								<th>姓名</th>
+								<th>权限</th>
+								<th>状态</th>
+								<th>操作</th>
+							</tr>
+						</thead>
+						
+						<tbody class="middle-align">
+						 <% for(var i=0;i<data.length;i++){ %>
+							<tr>
+								<td><%= i+1 %></td>
+								<td><%=data[i].username%></td>
+								<td><%=data[i].name_zh%></td>
+								<td><%if(data[i].type=="personnel"){%>员工<%}else{%>主管<%}%></td>
+								<td><%if(data[i].state=="ing"){%>在职<%}else{%>离职<%}%></td> 
+								<td>
+									<a href="/director/account/mod?id=<%=data[i].id%>" class="btn btn-info btn-sm btn-icon icon-left">
+										修改
+									</a>
+									<%if(data[i].state=="ing"){%>
+										<a  onclick="jQuery('#modal-1').modal('show', {backdrop: 'static'});" data="<%=data[i].id%>"  class="btn btn-turquoise btn-sm p_end btn-icon icon-left">
+											离职
+										</a>
+									<%}%>
+									
+								</td>
+							</tr>
+							<% } %>
+							
+						</tbody>
+					</table>
+					
+				</div>
+			</div>
+  
+  <!-- Main Footer --> 
+  <!-- Choose between footer styles: "footer-type-1" or "footer-type-2" --> 
+  <!-- Add class "sticky" to  always stick the footer to the end of page (if page contents is small) --> 
+  <!-- Or class "fixed" to  always fix the footer to the end of page -->
+  <% include footer.ejs %>
+  </div>
+</div>
+<!-- Modal 1 (Basic)-->
+	<div class="modal fade" id="modal-1">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title">离职</h4>
+				</div>
+				
+				<div class="modal-body">
+					你确定办理离职吗？
+				</div>
+				
+				<div class="modal-footer">
+					<button type="button" class="btn btn-white" data-dismiss="modal">返回</button>
+					<button type="button"  id="leave_y" data=""  class="btn btn-info">确定</button>
+				</div>
+			</div>
+		</div>
+	</div>
+<script type="text/javascript">
+	
+				$(function(){
+					
+					$(".p_end").click(function(){
+						$("#leave_y").attr("data",$(this).attr("data")); 
+					});
+					
+					//任务结束
+				$("#leave_y").click(function(){
+					var eadmin_id=$("#leave_y").attr("data");
+					 $.ajax({
+									//几个参数需要注意一下
+										type: "post",//方法类型
+										dataType: "json",//预期服务器返回的数据类型
+										url: "/director/account/leave" ,//url 
+										data: {
+												id:eadmin_id,/*任务ID*/	
+										},
+										success: function (result) {
+											
+										if (result.resultCode == 200) {
+												 window.location.href = '/director/account'; 
+											} 
+										},
+										error : function() {
+											alert("异常！");
+										}
+									});
+					
+				});
+					
+					
+				})
+</script> 				  
+<!-- Imported styles on this page -->
+<link rel="stylesheet" href="/www/assets/js/daterangepicker/daterangepicker-bs3.css">
+<link rel="stylesheet" href="/www/assets/js/select2/select2.css">
+<link rel="stylesheet" href="/www/assets/js/select2/select2-bootstrap.css">
+<link rel="stylesheet" href="/www/assets/js/multiselect/css/multi-select.css">
+
+<!-- Bottom Scripts --> 
+<script src="/www/assets/js/bootstrap.min.js"></script> 
+<script src="/www/assets/js/TweenMax.min.js"></script> 
+<script src="/www/assets/js/resizeable.js"></script> 
+<script src="/www/assets/js/joinable.js"></script> 
+<script src="/www/assets/js/xenon-api.js"></script> 
+<script src="/www/assets/js/xenon-toggles.js"></script> 
+<script src="/www/assets/js/moment.min.js"></script> 
+
+<!-- Imported scripts on this page --> 
+<script src="/www/assets/js/daterangepicker/daterangepicker.js"></script> 
+<script src="/www/assets/js/datepicker/bootstrap-datepicker.js"></script> 
+<script src="/www/assets/js/timepicker/bootstrap-timepicker.min.js"></script> 
+<script src="/www/assets/js/colorpicker/bootstrap-colorpicker.min.js"></script> 
+<script src="/www/assets/js/select2/select2.min.js"></script> 
+<script src="/www/assets/js/jquery-ui/jquery-ui.min.js"></script> 
+<script src="/www/assets/js/selectboxit/jquery.selectBoxIt.min.js"></script> 
+<script src="/www/assets/js/tagsinput/bootstrap-tagsinput.min.js"></script> 
+<script src="/www/assets/js/typeahead.bundle.js"></script> 
+<script src="/www/assets/js/handlebars.min.js"></script> 
+<script src="/www/assets/js/multiselect/js/jquery.multi-select.js"></script> 
+
+<!-- JavaScripts initializations and stuff --> 
+<script src="/www/assets/js/xenon-custom.js"></script>
+</body>
+</html>
+

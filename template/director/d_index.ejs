@@ -1,0 +1,149 @@
+ <% include top.ejs %>
+    <div class="page-title">
+      <div class="title-env">
+        <h1 class="title">待审核任务</h1>
+		<p class="description">Ongoing tasks</p>  
+      </div>
+      <div class="breadcrumb-env">
+        <ol class="breadcrumb bc-1">
+          <li> <a href="/director/"><i class="fa-home"></i>首页</a> </li>
+        </ol>
+      </div>
+    </div>
+    <div class="col-sm-12">	
+		
+	 <% if(task_data[1].length!==0){%>
+      <% for(var i=0;i<task_data[1].length;i++){ %>	
+ 					
+      <div class="panel col-sm-12 panel-default">
+        <div class="col-sm-6 border_right ">
+          <h3 class="row padding_b10"><%= task_data[1][i].t_name %><span class="label label-success pople">申请人：<%= results[i].oName_zh %></span></h3>
+          <div class="row">
+			 <p class="col-sm-5 padding-left-0">项目名称：<%=results[i].project_name %></p>
+			 <p class="col-sm-7">任务周期：<%= results[i].from %>  至  <%= results[i].to %>  共<%= results[i].cycle %>天</p>
+			   
+          </div>
+			 <p class="row">[验证标准]路径：<%= task_data[1][i].val_path.replace(/\//g, '\\') %></p>
+          <p class="row">任务内容:<%= task_data[1][i].detailed %></p>
+        </div>
+        <div class="col-sm-2 border_right">
+          <h4 class="col-sm-12 padding_b10">任务状态</h4>
+          <p class="col-sm-12">剩余制作时间：<b><%= results[i].last %> 天</b></p>
+          <p class="col-sm-12">当前完成进度：<b><%= task_data[1][i].t_plan %>%</b></p>
+          <p class="col-sm-12">当前制作状态：<%if( task_data[1][i].state=="review"){%>						 
+																						  待审核
+																					<%	}else {%>	
+																						  进行中
+																						<%}%>	
+			</p>
+        </div>
+        <div class="col-sm-2 border_right">
+          <h4 class="col-sm-12 padding_b10">实际状态</h4>
+          <p class="col-sm-12">驳回次数：<b>0</b>次</p>
+          <p class="col-sm-12">实际时间：<b><%= results[i].actual %> 天</b></p>
+          <p class="col-sm-12">推迟次数：<b>0</b> 次</p>
+        </div>
+        <div class="col-sm-2">
+			<% if(task_data[1][i].state=="review"){%>
+          		<div class="col-sm-2 shen_he">
+			<p>
+			<a href="director/i_shen?id=<%= task_data[1][i].id %>" target="_self"><button class="btn btn-red">审核</button></a>
+			<a href="#" target="_self"><button class="btn btn-blue">删除</button></a>
+			</p>	
+        </div>
+			<%	}else if(task_data[1][i].state=="ing_true"){%>
+			 <div class="col-sm-2 shen_he">
+					<p>
+						<a href="/director/i_task/?id=<%= task_data[1][i].id %>&t_number=<%= task_data[1][i].t_number %>&p_number=<%= task_data[1][i].p_number %>" target="_self"><button class="btn btn-red">审核</button></a>
+					</p>	
+       		 </div>
+			<%}%>
+        </div>
+ 
+      </div>
+      <% }%>
+	<% }%>
+      
+    <!-- Main Footer --> 
+    <!-- Choose between footer styles: "footer-type-1" or "footer-type-2" --> 
+    <!-- Add class "sticky" to  always stick the footer to the end of page (if page contents is small) --> 
+    <!-- Or class "fixed" to  always fix the footer to the end of page -->
+    <% include footer.ejs %>
+  </div>
+  
+</div>
+
+<!-- Imported styles on this page -->
+<link rel="stylesheet" href="www/assets/css/fonts/meteocons/css/meteocons.css">
+
+<!-- Bottom Scripts --> 
+<script src="www/assets/js/bootstrap.min.js"></script> 
+<script src="www/assets/js/TweenMax.min.js"></script> 
+<script src="www/assets/js/resizeable.js"></script> 
+<script src="www/assets/js/joinable.js"></script> 
+<script src="www/assets/js/xenon-api.js"></script> 
+<script src="www/assets/js/xenon-toggles.js"></script> 
+
+<!-- Imported scripts on this page --> 
+<script src="www/assets/js/jvectormap/jquery-jvectormap-1.2.2.min.js"></script> 
+<script src="www/assets/js/jvectormap/regions/jquery-jvectormap-world-mill-en.js"></script> 
+<script src="www/assets/js/xenon-widgets.js"></script> 
+<!-- JavaScripts initializations and stuff --> 
+<script src="/www/assets/js/xenon-custom.js"></script>
+<!-- chart --> 
+<script src="www/assets/js/chart/Chart.bundle.js"></script> 
+<script src="www/assets/js/chart/utils.js"></script> 
+<script type="text/javascript">
+	 
+			var randomScalingFactor = function() {
+			return Math.round(Math.random() * 100);
+		};
+
+		var config1 = {
+			type: 'doughnut',
+			data: {
+				datasets: [{
+					data: [
+						85,
+						15, 
+					],
+					backgroundColor: [
+						window.chartColors.red,
+						window.chartColors.blue,
+					],
+					label: 'Dataset 1'
+				}],
+				labels: [
+					'未完成',
+					'完成',
+				]
+			},
+			options: {
+				responsive: true,
+				legend: {
+					position:'right',
+					display: false,
+				},
+				title: {
+					display: false,
+					text: 'Chart.js Doughnut Chart'
+				},
+				animation: {
+					animateScale: true,
+					animateRotate: true
+				}
+			}
+		};
+	
+		$(function($) {
+  		 var ctx1 = document.getElementById('chart-area_1').getContext('2d');
+			window.myDoughnut = new Chart(ctx1, config1);
+		});
+	
+		var colorNames = Object.keys(window.chartColors);
+			
+ 
+	</script> 
+
+</body>
+</html>

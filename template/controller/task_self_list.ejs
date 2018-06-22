@@ -1,0 +1,220 @@
+ <% include top.ejs %>
+    <div class="page-title">
+      <div class="title-env">
+        <h1 class="title">自己的任务</h1>
+		<p class="description">His task</p>  
+      </div>
+      <div class="breadcrumb-env">
+        <ol class="breadcrumb bc-1">
+          <li> <a href="/controller/"><i class="fa-home"></i>首页</a> </li>
+        </ol>
+      </div>
+    </div>
+    <div class="col-sm-12">	
+
+      <% for(var i=0;i<task_data[0].length;i++){%>
+		<% var user_name%>
+		<% for(var x =0;x<task_data[1].length;x++){%>
+				<%if(task_data[0][i].p_number==task_data[1][x].p_number){%>
+						<% user_name=task_data[1][x].head%>
+					<%}%>
+				<% }%>
+		
+   	 <% if(username==user_name){%>	
+ <a href="/controller/task_self/task_self_con/?id=<%= task_data[0][i].id %>&t_number=<%= task_data[0][i].t_number %>" target="_self">			
+      <div class="panel col-sm-12 panel-default">
+        <div class="col-sm-8 border_right ">
+          <h3 class="row padding_b10"><%= task_data[0][i].t_name %></h3>
+          <div class="row">
+			 <p class="col-sm-3 padding-left-0">项目名称：
+				 <% for(var x =0;x<task_data[1].length;x++){%>
+					<%if(task_data[0][i].p_number==task_data[1][x].p_number){%>
+						<%=task_data[1][x].p_name%>
+					<%}%>
+				<% }%></p>
+			 <p class="col-sm-9">任务周期：
+				 
+				 <%=new Date(parseInt(task_data[0][i].wheel_s)).getFullYear()  %>/
+				 <%=new Date(parseInt(task_data[0][i].wheel_s)).getMonth()+1 %>/
+				 <%=new Date(parseInt(task_data[0][i].wheel_s)).getDate()+1  %>       
+				  <%=(new Date(parseInt(task_data[0][i].wheel_s)).getHours())<10?"0"+(new Date(parseInt(task_data[0][i].wheel_s)).getHours()): new Date(parseInt(task_data[0][i].wheel_s)).getHours() %>:
+				 <%=(new Date(parseInt(task_data[0][i].wheel_s)).getMinutes())<10?"0"+(new Date(parseInt(task_data[0][i].wheel_s)).getMinutes()): new Date(parseInt(task_data[0][i].wheel_s)).getMinutes() %> 
+				 至
+				 <%=new Date(parseInt(task_data[0][i].wheel_e)).getFullYear()  %>/
+				 <%=new Date(parseInt(task_data[0][i].wheel_e)).getMonth()+1%>/
+				 <%= new Date(parseInt(task_data[0][i].wheel_e)).getDate()+1 %>
+				  <%=(new Date(parseInt(task_data[0][i].wheel_e)).getHours())<10?"0"+(new Date(parseInt(task_data[0][i].wheel_e)).getHours()): new Date(parseInt(task_data[0][i].wheel_e)).getHours() %>:
+				 <%=(new Date(parseInt(task_data[0][i].wheel_e)).getMinutes())<10?"0"+(new Date(parseInt(task_data[0][i].wheel_e)).getMinutes()): new Date(parseInt(task_data[0][i].wheel_e)).getMinutes() %> 
+				 共<%=Math.floor((parseInt(task_data[0][i].wheel_e)-parseInt(task_data[0][i].wheel_s))/86400000*10)/10%> 天
+			  
+          </div>
+			 <p class="row">[验证标准]路径:<%= task_data[0][i].val_path.replace(/\//g, '\\') %></p>
+          <p class="row">任务内容:<%= task_data[0][i].detailed %></p>
+        </div>
+		  
+        <div class="col-sm-2 border_right">
+          <h4 class="col-sm-12 padding_b10">任务状态</h4>
+          <p class="col-sm-12">剩余制作时间：<b><%=Math.floor((parseInt(task_data[0][i].wheel_e)-parseInt(Date.parse(new Date())))/86400000*10)/10%></b>天</p>
+          <p class="col-sm-12">当前完成进度：<b><%= task_data[0][i].t_plan %>%</b></p>
+          <p class="col-sm-12">当前制作状态：<%if( task_data[0][i].state=="review"){%>待审核<%	}else {%>	进行中 <%}%>	</p>
+        </div>
+         
+        <div class="col-sm-2">
+ 				<canvas id="chart-area_<%= task_data[0][i].id %>"></canvas>
+        </div>
+ 
+      </div>
+</a>
+		
+	  <% }else{%>
+		<!-- 需要其他主管审核 --> 
+
+		 	<a href="/controller/task_self/task_self_task/?id=<%= task_data[0][i].id %>&t_number=<%= task_data[0][i].t_number %>" target="_self">	
+	 
+		  <div class="panel col-sm-12 panel-default">	 
+        <div class="col-sm-6 border_right ">
+          <h3 class="row padding_b10"><%= task_data[0][i].t_name %></h3>
+          <div class="row">
+			 <p class="col-sm-5 padding-left-0">项目名称： 
+			  <% for(var x =0;x<task_data[1].length;x++){%>
+					<%if(task_data[0][i].p_number==task_data[1][x].p_number){%>
+						<%=task_data[1][x].p_name%>
+					<%}%>
+				<% }%>
+			  </p>
+			 <p class="col-sm-7">任务周期：
+			  	<%=new Date(parseInt(task_data[0][i].wheel_s)).getFullYear()  %>/
+				 <%=new Date(parseInt(task_data[0][i].wheel_s)).getMonth()+1 %>/
+				 <%=new Date(parseInt(task_data[0][i].wheel_s)).getDate()+1  %>       
+				  <%=(new Date(parseInt(task_data[0][i].wheel_s)).getHours())<10?"0"+(new Date(parseInt(task_data[0][i].wheel_s)).getHours()): new Date(parseInt(task_data[0][i].wheel_s)).getHours() %>:
+				 <%=(new Date(parseInt(task_data[0][i].wheel_s)).getMinutes())<10?"0"+(new Date(parseInt(task_data[0][i].wheel_s)).getMinutes()): new Date(parseInt(task_data[0][i].wheel_s)).getMinutes() %> 
+				 至
+				 <%=new Date(parseInt(task_data[0][i].wheel_e)).getFullYear()  %>/
+				 <%=new Date(parseInt(task_data[0][i].wheel_e)).getMonth()+1%>/
+				 <%= new Date(parseInt(task_data[0][i].wheel_e)).getDate()+1 %>
+				  <%=(new Date(parseInt(task_data[0][i].wheel_e)).getHours())<10?"0"+(new Date(parseInt(task_data[0][i].wheel_e)).getHours()): new Date(parseInt(task_data[0][i].wheel_e)).getHours() %>:
+				 <%=(new Date(parseInt(task_data[0][i].wheel_e)).getMinutes())<10?"0"+(new Date(parseInt(task_data[0][i].wheel_e)).getMinutes()): new Date(parseInt(task_data[0][i].wheel_e)).getMinutes() %> 
+				 共<%=Math.floor((parseInt(task_data[0][i].wheel_e)-parseInt(task_data[0][i].wheel_s))/86400000*10)/10%> 天
+			  </p>
+          </div>
+		<p class="row">[验证标准]路径:<%= task_data[0][i].val_path.replace(/\//g, '\\') %></p>	
+          <p class="row">任务内容:<%= task_data[0][i].detailed %></p>
+        </div>
+        <div class="col-sm-2 border_right">
+          <h4 class="col-sm-12 padding_b10">任务状态</h4>
+           <p class="col-sm-12">剩余制作时间：<b><%=Math.floor((parseInt(task_data[0][i].wheel_e)-parseInt(Date.parse(new Date())))/86400000*10)/10%></b>天</p>
+          <p class="col-sm-12">当前完成进度：<b><%= task_data[0][i].t_plan %>%</b></p>
+          <p class="col-sm-12">当前制作状态：<%if( task_data[0][i].state=="review"){%>待审核<%	}else {%>	进行中 <%}%>	</p>
+        </div>
+        <div class="col-sm-2 border_right">
+          <h4 class="col-sm-12 padding_b10">实际状态</h4>
+          <p class="col-sm-12">驳回次数：<b> 0  </b>次</p>
+          <p class="col-sm-12">实际耗时：<b><%= task_data[0][i].consuming %>  H</b></p>
+          <p class="col-sm-12">推迟次数：<b> 0 </b> 次</p>
+        </div>
+        <div class="col-sm-2">
+			<% if(task_data[0][i].state=="ing" || task_data[0][i].state=="ing_true"){%>
+          <canvas id="chart-area_<%= task_data[0][i].id %>"></canvas>
+			<%	}else if(task_data[0][i].state=="review"){%>
+			<h3>审核中</h3>
+			<%}%>
+        </div>
+        </div>
+			 
+		</a> 
+		
+		  <% }%>
+      <% }%> <!-- for --> 
+	 	
+      
+    <!-- Main Footer --> 
+    <!-- Choose between footer styles: "footer-type-1" or "footer-type-2" --> 
+    <!-- Add class "sticky" to  always stick the footer to the end of page (if page contents is small) --> 
+    <!-- Or class "fixed" to  always fix the footer to the end of page -->
+    <% include footer.ejs %>
+  </div>
+  
+ 
+  
+</div>
+
+<!-- Imported styles on this page -->
+<link rel="stylesheet" href="/www/assets/css/fonts/meteocons/css/meteocons.css">
+
+<!-- Bottom Scripts --> 
+<script src="/www/assets/js/bootstrap.min.js"></script> 
+<script src="/www/assets/js/TweenMax.min.js"></script> 
+<script src="/www/assets/js/resizeable.js"></script> 
+<script src="/www/assets/js/joinable.js"></script> 
+<script src="/www/assets/js/xenon-api.js"></script> 
+<script src="/www/assets/js/xenon-toggles.js"></script> 
+
+<!-- Imported scripts on this page --> 
+<script src="/www/assets/js/jvectormap/jquery-jvectormap-1.2.2.min.js"></script> 
+<script src="/www/assets/js/jvectormap/regions/jquery-jvectormap-world-mill-en.js"></script> 
+<script src="/www/assets/js/xenon-widgets.js"></script> 
+<!-- JavaScripts initializations and stuff --> 
+<script src="/www/assets/js/xenon-custom.js"></script>
+<!-- chart --> 
+<script src="/www/assets/js/chart/Chart.bundle.js"></script> 
+<script src="/www/assets/js/chart/utils.js"></script> 
+<script type="text/javascript">
+	 
+			var randomScalingFactor = function() {
+			return Math.round(Math.random() * 100);
+		};
+    <% for(var i=0;i<task_data[0].length;i++){	%>	
+	    <% if(task_data[0][i].state=="ing" || task_data[0][i].state=="ing_true" ){%>	
+		var config<%= task_data[0][i].id %> = {
+			type: 'doughnut',
+			data: {
+				datasets: [{
+					data: [
+					<%=100-task_data[0][i].t_plan%>,
+					<%=task_data[0][i].t_plan%>	
+					],
+					backgroundColor: [
+						window.chartColors.red,
+						window.chartColors.blue,
+					],
+					label: 'Dataset 1'
+				}],
+				labels: [
+					'未完成',
+					'完成',
+				]
+			},
+			options: {
+					responsive: true,
+					legend: {
+					position:'right',
+					display: false,
+				},
+				title: {
+					display: false,
+					text: 'Chart.js Doughnut Chart'
+				},
+				animation: {
+					animateScale: true,
+					animateRotate: true
+				}
+			}
+		};
+		<%}%>	
+<%}%>	
+		$(function($) {
+		    <% for(var i=0;i<task_data[0].length;i++){ %>	
+				<% if(task_data[0][i].state=="ing"  || task_data[0][i].state=="ing_true" ){%>		
+					var ctx<%= task_data[0][i].id %> = document.getElementById('chart-area_<%= task_data[0][i].id %>').getContext('2d');
+					window.myDoughnut = new Chart(ctx<%= task_data[0][i].id %>, config<%= task_data[0][i].id %>);
+				<%}%>	
+		<%}%>
+		});
+	
+		var colorNames = Object.keys(window.chartColors);
+			
+ 
+	</script> 
+
+</body>
+</html>

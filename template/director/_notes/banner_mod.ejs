@@ -1,0 +1,199 @@
+<% include _top.ejs %>
+<body class="page-body">
+<div class="page-container"><!-- add class "sidebar-collapsed" to close sidebar by default, "chat-visible" to make chat appear always --> 
+  
+  <!-- Add "fixed" class to make the sidebar fixed always to the browser viewport. --> 
+  <!-- Adding class "toggle-others" will keep only one menu item open at a time. --> 
+  <!-- Adding class "collapsed" collapse sidebar root elements and show only icons. -->
+  <% include _left.ejs %>
+  <div class="main-content"> 
+    
+    <!-- User Info, Notifications and Menu Bar -->
+    <% include _navbar.ejs %>
+    <div class="page-title">
+      <div class="title-env">
+        <h1 class="title">首页管理</h1>
+        <p class="description">Home management</p>
+      </div>
+      <div class="breadcrumb-env">
+        <ol class="breadcrumb bc-1">
+          <li> <a href="dashboard-1.html"><i class="fa-home"></i>Home</a> </li>
+          <li> <a href="forms-native.html">Forms</a> </li>
+          <li class="active"> <strong>Native Elements</strong> </li>
+        </ol>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">banner广告</h3>
+          </div>
+			<div class="panel-body">
+				
+					<form role="form" id="form1"  action="/admin/banner/banner_update"  method="post" class="validate">
+						<input type="hidden" name="mod_id" value="<%= mod_data.id %>" />
+						<div class="form-group">
+							<label class="control-label">名称</label>
+							
+							<input type="text" class="form-control" name="banner_name" data-validate="required" data-message-required="This is custom message for required field." placeholder="请输入名称" value="<%= mod_data.banner_name %>" />
+						</div>
+						
+						<div class="form-group">
+							<label class="control-label">标题</label>
+							
+							<input type="text" class="form-control" name="title" data-validate="required" data-message-required="This is custom message for required field." placeholder="请输入标题" value="<%= mod_data.title %>" />
+						</div>
+						<div class="form-group">
+							<label class="control-label">副标题</label>
+							
+							<input type="text" class="form-control" name="sub_title" data-validate="required" data-message-required="This is custom message for required field." placeholder="请输入副标题" value="<%= mod_data.sub_title %>" />
+						</div>
+						<div class="form-group">
+							<label class="control-label">链接</label>
+							<input type="text" class="form-control" name="link_http" data-validate="required,url" placeholder="URL" value="<%= mod_data.link_http %>"  />
+						</div>
+						<input style="display:none" type="text" id="poic" class="form-control" name="pic" data-validate="required" value="<%= mod_data.src %>" placeholder="URL" />
+						 
+						<div class="panel panel-default">
+			
+				<div class="panel-heading">
+					<h3 class="panel-title">
+						作品图片 <small>限制1920px内</small>
+					</h3>
+				</div>
+				
+				<div class="panel-body">
+					
+					<script type="text/javascript"> 
+						jQuery(document).ready(function($)
+						{
+							var i = 1,
+								$example_dropzone_filetable = $("#example-dropzone-filetable"),
+								example_dropzone = $("#advancedDropzone").dropzone({
+								url: '/admin/banner/banner_update_pic',
+								acceptedFiles: ".gif,.jpg,.png",
+								paramName:"file",
+								maxFiles: 2,	
+								uploadMultiple:false,
+								method:"post",	
+								// Events
+								addedfile: function(file)
+								{
+									if(i == 1)
+									{
+										$example_dropzone_filetable.find('tbody').html('');
+									}
+									
+									var size = parseInt(file.size/1024, 10);
+									size = size < 1024 ? (size + " KB") : (parseInt(size/1024, 10) + " MB");
+									
+									var	$el = $('<tr>\
+													<td class="text-center">'+(i++)+'</td>\
+													<td>'+file.name+'</td>\
+													<td><div class="progress progress-striped"><div class="progress-bar progress-bar-warning"></div></div></td>\
+													<td>'+size+'</td>\
+													<td>上传中...</td>\
+												</tr>');
+									
+									$example_dropzone_filetable.find('tbody').append($el);
+									file.fileEntryTd = $el;
+									file.progressBar = $el.find('.progress-bar');
+								},
+								
+								uploadprogress: function(file, progress, bytesSent)
+								{
+									file.progressBar.width(progress + '%');
+								},
+								
+								success: function(file,data)
+								{
+									file.fileEntryTd.find('td:last').html('<span class="text-success">上传完成</span>');
+									file.progressBar.removeClass('progress-bar-warning').addClass('progress-bar-success');
+									$("#poic").attr("value",data.newFileName);
+								},
+								
+								error: function(file)
+								{
+									file.fileEntryTd.find('td:last').html('<span class="text-danger">Failed</span>');
+									file.progressBar.removeClass('progress-bar-warning').addClass('progress-bar-red');
+									
+								}
+							});
+							
+							$("#advancedDropzone").css({
+								minHeight: 200
+							});
+			
+						});
+					</script>
+					
+					<br />
+					<div class="row">
+						<div class="col-sm-3 text-center">
+						
+							<div id="advancedDropzone" class="droppable-area">
+								点击上传
+								
+							</div>
+							
+						</div>
+						<div class="col-sm-9">
+							
+							<table class="table table-bordered table-striped" id="example-dropzone-filetable">
+								<thead>
+									<tr>
+										<th width="1%" class="text-center">#</th>
+										<th width="50%">文件名</th>
+										<th width="20%">上传进度</th>
+										<th>大小</th>
+										<th>状态</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td colspan="2">已上传图片</td>
+										<td colspan="3"><img src="/upload/<%= mod_data.src %>" width="300"/></td>
+									</tr>
+								</tbody>
+							</table>
+							
+						</div>
+					</div>
+					
+				</div>
+			
+			</div>	
+						<div class="form-group">
+							<button type="submit" class="btn btn-success">Validate</button>
+							<button type="reset" class="btn btn-white">Reset</button>
+						</div>
+					
+					</form>
+				
+				</div>
+          
+        </div>
+      </div>
+    </div>
+	    <% include footer.ejs %>
+  </div>
+</div>
+
+<!-- Bottom Scripts --> 
+<script src="/staic/assets/js/bootstrap.min.js"></script> 
+<script src="/staic/assets/js/TweenMax.min.js"></script> 
+<script src="/staic/assets/js/resizeable.js"></script> 
+<script src="/staic/assets/js/joinable.js"></script> 
+<script src="/staic/assets/js/xenon-api.js"></script> 
+<script src="/staic/assets/js/xenon-toggles.js"></script> 
+
+<!-- Imported scripts on this page --> 
+<script src="/staic/assets/js/dropzone/dropzone.min.js"></script> 
+<!-- Imported scripts on this page -->
+	<script src="/staic/assets/js/jquery-validate/jquery.validate.min.js"></script>	
+
+<!-- JavaScripts initializations and stuff --> 
+<script src="/staic/assets/js/xenon-custom.js"></script>
+</body>
+</html>

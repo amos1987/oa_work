@@ -1,0 +1,234 @@
+<% include top.ejs %>
+  <div class="page-title">
+    <div class="title-env">
+      <h1 class="title">审核</h1>
+      <p class="description">Create task</p>
+    </div>
+    <div class="breadcrumb-env">
+      <ol class="breadcrumb bc-1"> <li> <a href="/director/"><i class="fa-home"></i>首页</a> </li>
+        <li class="active"> <strong>任务审核</strong> </li>
+      </ol>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">任务审核</h3>
+        </div>
+        <div class="panel-body form-horizontal">
+          <input  type="hidden" id="field-id"  value="<%= data[0][0].id%>">
+            <div class="form-group">
+              <label class="col-sm-2 control-label" for="field-1">任务名称</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="field-name" placeholder="请输入任务名称" value="<%= data[0][0].t_name%>">
+              </div>
+            </div>
+			
+            <div class="form-group">
+              <label class="col-sm-2 control-label" >项目</label>
+              <script type="text/javascript">
+										jQuery(document).ready(function($)
+										{
+											$("#s2example-1").select2({
+												placeholder: '请选择项目',
+												allowClear: true
+											}).on('select2-open', function()
+											{
+												// Adding Custom Scrollbar
+												$(this).data('select2').results.addClass('overflow-hidden').perfectScrollbar();
+											});
+											
+										});
+									</script>
+				
+              <div class="col-sm-9">
+                <select class="form-control " id="s2example-1" value="<%= data[1][0].p_name%>-<%= data[1][0].p_number%>">
+                  <option><%= data[1][0].p_name%>-<%= data[1][0].p_number%></option>
+                  <optgroup label="请选择项目">
+					  
+				 <% for(var i=0;i<data[2].length;i++){%>
+					  <option><%= data[2][i].p_name%>-<%= data[2][i].p_number%></option>
+				<%}%>  
+					  
+                  </optgroup>
+                </select>
+              </div>
+              <div class="col-sm-1"> <a href="javascript:;" onclick="jQuery('#modal-2').modal('show');" class="btn btn-primary btn-single btn-sm">时间表</a> </div>
+            </div>
+            <div class="form-group-separator"></div>
+            <div class="form-group">
+              <label class="col-sm-2 control-label" for="field-5">任务周期</label>
+              <div class="col-sm-10">
+                <input type="text" id="field-time" class="form-control daterange" data-time-picker="true" data-time-picker-increment="5" data-format="YYYY/MM/DD HH:mm" placeholder="请选择任务周期" value="<%= from%> - <%= to%>"/>
+              </div>
+            </div>
+            <div class="form-group-separator"></div>
+            <div class="form-group">
+              <label class="col-sm-2 control-label" for="field-3">【验收标准】路径</label>
+              <div class="col-sm-10">
+                <input type="email" class="form-control" id="acceptance" placeholder="请输入服务器上的文件夹路径" value="<%= data[0][0].val_path%>">
+              </div>
+            </div>
+             
+            <div class="form-group-separator"></div>
+            <div class="form-group">
+              <label class="col-sm-2 control-label" for="field-5">详细任务内容</label>
+              <div class="col-sm-10">
+                <textarea class="form-control" cols="5" id="contant_txt" placeholder="限制100字" value="<%= data[0][0].detailed%>"><%= data[0][0].detailed%></textarea>
+              </div>
+            </div>
+            <div class="form-group has-error">
+              <label class="col-sm-2"></label>
+              <div class="form-group col-sm-10 ">
+                <button type="submit" id="success" class="btn btn-success">审核通过</button>
+				 <button type="reset"  onclick="jQuery('#modal-1').modal('show', {backdrop: 'fade'});"  class="btn btn-red">删除</button>
+				  <a href="/director" target="_self"><button type="submit" class="btn btn-white">返回</button></a>
+              </div>
+            </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+	
+  <!-- Main Footer --> 
+  <!-- Choose between footer styles: "footer-type-1" or "footer-type-2" --> 
+  <!-- Add class "sticky" to  always stick the footer to the end of page (if page contents is small) --> 
+  <!-- Or class "fixed" to  always fix the footer to the end of page -->
+    <% include footer.ejs %>
+  </div>
+</div>
+<!-- Modal 1 (Basic)-->
+	<div class="modal fade" id="modal-1">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title">删除</h4>
+				</div>
+				
+				<div class="modal-body">
+					你确定要删除这条任务申请吗？
+				</div>
+				
+				<div class="modal-footer">
+					<button type="button" class="btn btn-white" data-dismiss="modal">返回</button>
+					<button type="button" id="dele_task" class="btn btn-info">确定</button>
+				</div>
+			</div>
+		</div>
+	</div>
+  <script type="text/javascript">
+				$(function(){
+					$("#dele_task").click(function(){
+						
+									$.ajax({
+									//几个参数需要注意一下
+										type: "get",//方法类型
+										dataType: "json",//预期服务器返回的数据类型
+										url: "/director/i_shen_dele" ,//url
+										data: {
+												id:<%= data[0][0].id%>,/*id*/
+										},
+										success: function (result) {
+											if (result.resultCode == 200) {
+												window.location.href = '/director'; 
+											};
+										},
+										error : function() {
+											alert("异常！");
+										}
+									});
+ 
+						}) ;//删除——end
+					
+				$("#success").click(function(){
+									var reg = /\\/g;
+									var oID =$("#field-id").val();//任务id
+									var oName =$("#field-name").val();//任务名称  
+									var oP_number =$("#s2example-1").val().split("-")[1];//项目序号
+									var oTime_from =parseInt(Date.parse($("#field-time").val().split("-")[0]));//开始时间
+									var oTime_to =parseInt(Date.parse($("#field-time").val().split("-")[1]));//结束时间
+									var oScceptance =$("#acceptance").val().replace(reg, '/');//验收路径
+									//var oMeasure =$("#measure").val();//标准确认
+									var oDetailed =$("#contant_txt").val();//详细任务内容
+									$.ajax({
+									//几个参数需要注意一下
+										type: "post",//方法类型
+										dataType: "json",//预期服务器返回的数据类型
+										url: "/director/i_shen_mod" ,//url
+										data: {
+												id:oID,/*id*/
+												t_name:oName,
+												p_number:oP_number,
+												wheel_s:oTime_from,
+												wheel_e:oTime_to,
+												val_path:oScceptance,
+												detailed:oDetailed,
+												state:'ing',
+										},
+										success: function (result) {
+											alert("审核成功");
+											if (result.resultCode == 200) {
+												window.location.href = '/director'; 
+											};
+										},
+										error : function() {
+											alert("异常！");
+										}
+									});
+ 
+						}) ;//删除——end	
+					
+				}) 
+					 
+				</script>
+<div class="modal fade custom-width" id="modal-2">
+  <div class="modal-dialog" style="width: 60%;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">项目时间表</h4>
+      </div>
+      <div class="modal-body"> 时间表图片 </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-white" data-dismiss="modal">关闭</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Imported styles on this page -->
+<link rel="stylesheet" href="/www/assets/js/daterangepicker/daterangepicker-bs3.css">
+<link rel="stylesheet" href="/www/assets/js/select2/select2.css">
+<link rel="stylesheet" href="/www/assets/js/select2/select2-bootstrap.css">
+<link rel="stylesheet" href="/www/assets/js/multiselect/css/multi-select.css">
+
+<!-- Bottom Scripts --> 
+<script src="/www/assets/js/bootstrap.min.js"></script> 
+<script src="/www/assets/js/TweenMax.min.js"></script> 
+<script src="/www/assets/js/resizeable.js"></script> 
+<script src="/www/assets/js/joinable.js"></script> 
+<script src="/www/assets/js/xenon-api.js"></script> 
+<script src="/www/assets/js/xenon-toggles.js"></script> 
+<script src="/www/assets/js/moment.min.js"></script> 
+
+<!-- Imported scripts on this page --> 
+<script src="/www/assets/js/daterangepicker/daterangepicker.js"></script> 
+<script src="/www/assets/js/datepicker/bootstrap-datepicker.js"></script> 
+<script src="/www/assets/js/timepicker/bootstrap-timepicker.min.js"></script> 
+<script src="/www/assets/js/colorpicker/bootstrap-colorpicker.min.js"></script> 
+<script src="/www/assets/js/select2/select2.min.js"></script> 
+<script src="/www/assets/js/jquery-ui/jquery-ui.min.js"></script> 
+<script src="/www/assets/js/selectboxit/jquery.selectBoxIt.min.js"></script> 
+<script src="/www/assets/js/tagsinput/bootstrap-tagsinput.min.js"></script> 
+<script src="/www/assets/js/typeahead.bundle.js"></script> 
+<script src="/www/assets/js/handlebars.min.js"></script> 
+<script src="/www/assets/js/multiselect/js/jquery.multi-select.js"></script> 
+
+<!-- JavaScripts initializations and stuff --> 
+<script src="/www/assets/js/xenon-custom.js"></script>
+</body>
+</html>

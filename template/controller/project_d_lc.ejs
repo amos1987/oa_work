@@ -1,0 +1,399 @@
+<% include top.ejs %>
+  <div class="page-title">
+    <div class="title-env">
+      <h1 class="title">项目详细</h1>
+      <p class="description">Project details</p>
+    </div>
+    <div class="breadcrumb-env">
+      <ol class="breadcrumb bc-1"> <li> <a href="/controller/"><i class="fa-home"></i>首页</a> </li>
+        <li>  <a href="/controller/project">项目列表</a></li>
+        <li class="active"> <strong>项目详细</strong> </li>
+      </ol>
+    </div>
+  </div>
+<section class="mailbox-env">
+				
+				<div class="row">
+					<!-- Inbox emails -->
+					<div class="col-sm-10 mailbox-right">
+							<!-- Email Title and Button Options -->
+							<div class="mail-single-header">
+								<h2>
+									任务详细
+								</h2>
+								
+								<div class="mail-single-header-options">
+									<a href="/controller/project" class="btn btn-gray btn-icon">
+										<span>返回</span>
+										<i class="fa-reply-all"></i>
+									</a>
+								</div>
+							</div>
+					 
+							<div class="col-sm-12">
+							
+							<!--员工列表-->
+							<%if(project[3][0].type=='personnel'){%>
+							 <div class="panel col-sm-12 panel-default panel_blue">
+							<div class="col-sm-6 border_right">
+							  <h3 class="row padding_b10"><%=project[5][0].t_name%></h3>
+							  <div class="row">
+								<p class="col-sm-5 padding-left-0">项目名称：
+								  <% for(var x =0;x<project[4].length;x++){%>
+									<%if(project[5][0].p_number==project[4][x].p_number){%>
+										<%=project[4][x].p_name%>
+									<%}%>
+								<% }%>
+								  </p>
+								<p class="col-sm-7">任务周期：
+								  <%=new Date(parseInt(project[5][0].wheel_s)).getFullYear()  %>/
+								 <%=new Date(parseInt(project[5][0].wheel_s)).getMonth()+1 %>/
+								 <%=new Date(parseInt(project[5][0].wheel_s)).getDate()+1  %>       
+								  <%=(new Date(parseInt(project[5][0].wheel_s)).getHours())<10?"0"+(new Date(parseInt(project[5][0].wheel_s)).getHours()): new Date(parseInt(project[5][0].wheel_s)).getHours() %>:
+								 <%=(new Date(parseInt(project[5][0].wheel_s)).getMinutes())<10?"0"+(new Date(parseInt(project[5][0].wheel_s)).getMinutes()): new Date(parseInt(project[5][0].wheel_s)).getMinutes() %> 
+								 至
+								 <%=new Date(parseInt(project[5][0].wheel_e)).getFullYear()  %>/
+								 <%=new Date(parseInt(project[5][0].wheel_e)).getMonth()+1%>/
+								 <%= new Date(parseInt(project[5][0].wheel_e)).getDate()+1 %>
+								  <%=(new Date(parseInt(project[5][0].wheel_e)).getHours())<10?"0"+(new Date(parseInt(project[5][0].wheel_e)).getHours()): new Date(parseInt(project[5][0].wheel_e)).getHours() %>:
+								 <%=(new Date(parseInt(project[5][0].wheel_e)).getMinutes())<10?"0"+(new Date(parseInt(project[5][0].wheel_e)).getMinutes()): new Date(parseInt(project[5][0].wheel_e)).getMinutes() %> 
+								 共<%=Math.floor((parseInt(project[5][0].wheel_e)-parseInt(project[5][0].wheel_s))/86400000*10)/10%> 天
+								  </p>
+							  </div>
+							  <p class="row">[验证标准]路径:<%=project[5][0].val_path.replace(/\//g, '\\')%></p>
+							  <p class="row">任务内容:<%=project[5][0].detailed%></p>
+							</div>
+							<div class="col-sm-2 border_right">
+							  <h4 class="col-sm-12 padding_b10">任务状态</h4>
+							  <p class="col-sm-12">剩余制作时间：<b><%=Math.floor((parseInt(project[5][0].wheel_e)-parseInt(Date.parse(new Date())))/86400000*10)/10%></b>天</p>
+							  <p class="col-sm-12">当前完成进度：<b><%=project[5][0].t_plan %>%</b></p>
+							  <p class="col-sm-12">当前制作状态：<%if( project[5][0].state=="review"){%>待审核<%	}else {%>	进行中 <%}%></p>
+							</div>
+							<div class="col-sm-2 border_right">
+							  <h4 class="col-sm-12 padding_b10">实际状态</h4>
+							  <p class="col-sm-12">驳回次数：<b><%=project[5][0].bh%></b>次</p>
+							  <p class="col-sm-12">实际耗时：<b><%=project[5][0].consuming%>H</b></p>
+							  <p class="col-sm-12">推迟次数：<b><%=project[5][0].tc%></b> 次</p>
+							</div>
+							<div class="col-sm-2">
+							  <canvas id="chart-area_1"></canvas>
+							</div>
+
+					  </div>
+							<% }else{%>		
+							<!--主管列表-->	
+							<div class="panel col-sm-12 panel-default panel_blue">
+							<div class="col-sm-8 border_right">
+							  <h3 class="row padding_b10"><%=project[5][0].t_name%></h3>
+							  <div class="row">
+								<p class="col-sm-5 padding-left-0">项目名称：
+								  <% for(var x =0;x<project[4].length;x++){%>
+									<%if(project[5][0].p_number==project[4][x].p_number){%>
+										<%=project[4][x].p_name%>
+									<%}%>
+								<% }%>
+								  </p>
+								<p class="col-sm-7">任务周期：
+								  <%=new Date(parseInt(project[5][0].wheel_s)).getFullYear()  %>/
+								 <%=new Date(parseInt(project[5][0].wheel_s)).getMonth()+1 %>/
+								 <%=new Date(parseInt(project[5][0].wheel_s)).getDate()+1  %>       
+								  <%=(new Date(parseInt(project[5][0].wheel_s)).getHours())<10?"0"+(new Date(parseInt(project[5][0].wheel_s)).getHours()): new Date(parseInt(project[5][0].wheel_s)).getHours() %>:
+								 <%=(new Date(parseInt(project[5][0].wheel_s)).getMinutes())<10?"0"+(new Date(parseInt(project[5][0].wheel_s)).getMinutes()): new Date(parseInt(project[5][0].wheel_s)).getMinutes() %> 
+								 至
+								 <%=new Date(parseInt(project[5][0].wheel_e)).getFullYear()  %>/
+								 <%=new Date(parseInt(project[5][0].wheel_e)).getMonth()+1%>/
+								 <%= new Date(parseInt(project[5][0].wheel_e)).getDate()+1 %>
+								  <%=(new Date(parseInt(project[5][0].wheel_e)).getHours())<10?"0"+(new Date(parseInt(project[5][0].wheel_e)).getHours()): new Date(parseInt(project[5][0].wheel_e)).getHours() %>:
+								 <%=(new Date(parseInt(project[5][0].wheel_e)).getMinutes())<10?"0"+(new Date(parseInt(project[5][0].wheel_e)).getMinutes()): new Date(parseInt(project[5][0].wheel_e)).getMinutes() %> 
+								 共<%=Math.floor((parseInt(project[5][0].wheel_e)-parseInt(project[5][0].wheel_s))/86400000*10)/10%> 天
+								  </p>
+							  </div>
+							  <p class="row">[验证标准]路径:<%=project[5][0].val_path.replace(/\//g, '\\')%></p>
+							  <p class="row">任务内容:<%=project[5][0].detailed%></p>
+							</div>
+							<div class="col-sm-2 border_right">
+							  <h4 class="col-sm-12 padding_b10">任务状态</h4>
+							  <p class="col-sm-12">剩余制作时间：<b><%=Math.floor((parseInt(project[5][0].wheel_e)-parseInt(Date.parse(new Date())))/86400000*10)/10%></b>天</p>
+							  <p class="col-sm-12">当前完成进度：<b><%=project[5][0].t_plan %>%</b></p>
+							  <p class="col-sm-12">当前制作状态：<%if( project[5][0].state=="review"){%>待审核<%	}else {%>	进行中 <%}%></p>
+							</div>
+							 
+							<div class="col-sm-2">
+							  <canvas id="chart-area_1"></canvas>
+							</div>
+
+					  </div>
+								
+							 <%}%>	
+								
+						 <% if(log_list_all.length!==0){%>			
+						 <%for(var i=0;i<log_list_all.length;i++){%>
+							<div class="panel col-sm-12 panel-default">
+									 <div class="panel-heading">
+														<h3 class="panel-title"><%=log_list_all[i][0][0].time_title%></h3>
+														<div class="panel-options">
+															<a href="#" data-toggle="panel">
+																<span class="collapse-icon">–</span>
+																<span class="expand-icon">+</span>
+															</a>
+															<a href="#" data-toggle="remove">
+																×
+															</a>
+														</div>
+													</div>
+									 <div class="panel-body">
+										 <div class="panel-color panel-color-e1f7ff">
+												<h5 class="margin_t15_b15 padding-left-15"><b>工作计划：</b></h5> 
+												<p class="col-sm-12"><%=log_list_all[i][0][0].contant%></p>
+												<div class="col-sm-12 padding-left-0  ">
+												 <h5 class="col-sm-2">预计进度：<%=log_list_all[i][0][0].plan%>%</h5>
+												 <h5 class="col-sm-2">预计用时：<%=log_list_all[i][0][0].time%>H</h5>
+												 <h5 class="col-sm-2">状态：<%=log_list_all[i][0][0].state%></h5>
+												 <h5 class="col-sm-6">制作标准存放路径：<%=log_list_all[i][0][0].val_path.replace(/\//g, '\\')%></h5>
+												 
+												 </div>
+											 </div>
+										  <div class="panel-color panel-color-fffae1">
+												 <h5 class="margin_t15_b15 padding-left-15"><b>开始制作时间：</b></h5> 
+												<p class="col-sm-12"><%=log_list_all[i][0][0].state_time%> </p>
+											 </div>  
+										 <% if(log_list_all[i][1]){%>			
+										 <%for(var j=0;j<log_list_all[i][1].length;j++){%>
+											<% if(log_list_all[i][1][j].tuichi=="false"){%>
+										 
+										 <!--员工列表-->
+											<%if(project[3][0].type=='personnel'){%>
+											  <div class="panel-color panel-color-ffe1e1"> 
+													<h5 class="margin_t15_b15 padding-left-15"><b>提交审核：</b></h5> 
+													<p class="col-sm-12"><%=log_list_all[i][1][j].remark%></p> 
+													<div class="col-sm-12">
+													 <h5 class="col-sm-2 padding-left-0 ">预计进度：<%=log_list_all[i][1][j].plan%>%</h5>
+													 <h5 class="col-sm-2">预计用时：<%=log_list_all[i][1][j].time%>H</h5>
+													 <h5 class="col-sm-3">工作成果存放路径：<%=log_list_all[i][1][j].val_path.replace(/\//g, '\\')%></h5>
+													 <h5 class="col-sm-3">审核提交时间：<%=log_list_all[i][1][j].time%></h5>
+													 </div>	
+												  <p class="col-sm-12 red_hr"></p>
+												  <% if(log_list_all[i][1][j].state=="end"){%>
+												  <div class="col-sm-12">
+													 <h5 class="col-sm-12 "><b>审核通过：</b></h5> 
+													 <p class="col-sm-12 "><%=log_list_all[i][1][j].message%></p>
+													 <p class="col-sm-12  ">审核通过时间：<%=log_list_all[i][1][j].audit_time%></p>
+													 </div>
+												  <%}else{%>
+												  <div class="col-sm-12">
+													 <h5 class="col-sm-12 "><b>被驳回：</b></h5> 
+													 <p class="col-sm-12 "><%=log_list_all[i][1][j].message%></p>
+													 <p class="col-sm-12  ">驳回时间：<%=log_list_all[i][1][j].audit_time%></p>
+													 </div>
+												  <%}%>
+												 </div>
+											 <%}else{%>
+											 <!--主管列表-->	
+										 		
+										 			<div class="panel-color panel-color-ffe1e1"> 
+													<h5 class="margin_t15_b15 padding-left-15"><b>工作日志：</b></h5> 
+													<p class="col-sm-12"><%=log_list_all[i][1][j].remark%></p> 
+													<div class="col-sm-12">
+													 <h5 class="col-sm-2 padding-left-0 ">预计进度：<%=log_list_all[i][1][j].plan%>%</h5>
+													 <h5 class="col-sm-2">预计用时：<%=log_list_all[i][1][j].time%>H</h5>
+													 <h5 class="col-sm-6">工作成果存放路径：<%=log_list_all[i][1][j].val_path.replace(/\//g, '\\')%></h5>
+													  
+													 </div>	
+												 
+												   
+												 </div>
+										 
+										 		<%}%>
+										 
+											<%}else{%>
+												<div class="panel-color panel-color-e9e1ff"> 
+													<h5 class="margin_t15_b15 padding-left-15"><b>推迟审核：</b></h5> 
+													<p class="col-sm-12"><%=log_list_all[i][1][j].remark%></p> 
+													<div class="col-sm-12">
+													 <h5 class="col-sm-2 padding-left-0 ">预计进度：<%=log_list_all[i][1][j].plan%>%</h5>
+													 <h5 class="col-sm-2">预计用时：<%=log_list_all[i][1][j].time%>H</h5>
+													 <h5 class="col-sm-3">工作成果存放路径：<%=log_list_all[i][1][j].val_path.replace(/\//g, '\\')%></h5>
+													 <h5 class="col-sm-3">审核提交时间：<%=log_list_all[i][1][j].time%></h5>
+													 </div>	
+												  <p class="col-sm-12 red_hr"></p>
+												  <% if(log_list_all[i][1][j].state=="end"){%>
+												  <div class="col-sm-12">
+													 <h5 class="col-sm-12 "><b>审核通过：</b></h5> 
+													 <p class="col-sm-12 "><%=log_list_all[i][1][j].message%></p>
+													 <p class="col-sm-12  ">审核通过时间：<%=log_list_all[i][1][j].audit_time%></p>
+													 </div>
+												  <%}else{%>
+												  <div class="col-sm-12">
+													 <h5 class="col-sm-12 "><b>被驳回：</b></h5> 
+													 <p class="col-sm-12 "><%=log_list_all[i][1][j].message%></p>
+													 <p class="col-sm-12  ">驳回时间：<%=log_list_all[i][1][j].audit_time%></p>
+													 </div>
+												  <%}%>
+												 </div>
+											<%}%>
+										<%}%>	
+										<%}%>
+									 </div>	 
+								  </div>	
+								<%}%>	
+							<%}%>
+							</div>
+			 	
+						
+					</div>
+					
+					<!-- Mailbox Sidebar -->
+					<!-- Mailbox Sidebar -->
+					<div class="col-sm-2 mailbox-left">
+						
+						<div class="mailbox-sidebar">
+							
+							<a href="mailbox-compose.html" class="btn btn-block btn-secondary btn-icon btn-icon-standalone btn-icon-standalone-right">
+								<i class="linecons-mail"></i>
+								<span>项目</span>
+							</a>
+							<ul class="list-unstyled mailbox-list">
+								<li class="active">
+									<a href="/controller/project/project_detailed?p_number=<%=project[5][0].p_number%>" target="_self">
+										项目详细
+									</a>
+								</li>
+							</ul>
+							 
+							<ul class="list-unstyled mailbox-list">
+
+								<li class="list-header" >项目任务</li>
+								<%for (var i=0;i<project[2].length;i++){%>
+									<li>
+										<a href="/controller/project/project_d_l?username=<%=project[2][i].username%>&p_number=<%=project[5][0].p_number%>" target="_self">
+											<%=project[2][i].name_zh%>
+										</a>
+									</li>
+								<%}%>
+							</ul>
+							<ul class="list-unstyled mailbox-list">
+
+								<li class="list-header" >项目总结</li>
+								<%for (var i=0;i<project[2].length;i++){%>
+									<li>
+										<a href="/controller/project/project_d_z?p_number=<%=project[5][0].p_number%>&username=<%=project[2][i].username%>" target="_self">
+											<%=project[2][i].name_zh%>
+										</a>
+									</li>
+								<%}%>
+								
+							</ul>
+						</div>
+					</div>
+				</div>
+				
+			</section>	
+  
+  
+  <!-- Main Footer --> 
+  <!-- Choose between footer styles: "footer-type-1" or "footer-type-2" --> 
+  <!-- Add class "sticky" to  always stick the footer to the end of page (if page contents is small) --> 
+  <!-- Or class "fixed" to  always fix the footer to the end of page -->
+      <% include footer.ejs %>
+  </div>
+</div>
+<div class="modal fade custom-width" id="modal-2">
+  <div class="modal-dialog" style="width: 60%;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">项目时间表</h4>
+      </div>
+      <div class="modal-body"> 时间表图片 </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-white" data-dismiss="modal">关闭</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Imported styles on this page -->
+<link rel="stylesheet" href="/www/assets/js/daterangepicker/daterangepicker-bs3.css">
+<link rel="stylesheet" href="/www/assets/js/select2/select2.css">
+<link rel="stylesheet" href="/www/assets/js/select2/select2-bootstrap.css">
+<link rel="stylesheet" href="/www/assets/js/multiselect/css/multi-select.css">
+
+<!-- Bottom Scripts --> 
+<script src="/www/assets/js/bootstrap.min.js"></script> 
+<script src="/www/assets/js/TweenMax.min.js"></script> 
+<script src="/www/assets/js/resizeable.js"></script> 
+<script src="/www/assets/js/joinable.js"></script> 
+<script src="/www/assets/js/xenon-api.js"></script> 
+<script src="/www/assets/js/xenon-toggles.js"></script> 
+<script src="/www/assets/js/moment.min.js"></script> 
+
+<!-- Imported scripts on this page --> 
+<script src="/www/assets/js/daterangepicker/daterangepicker.js"></script> 
+<script src="/www/assets/js/datepicker/bootstrap-datepicker.js"></script> 
+<script src="/www/assets/js/timepicker/bootstrap-timepicker.min.js"></script> 
+<script src="/www/assets/js/colorpicker/bootstrap-colorpicker.min.js"></script> 
+<script src="/www/assets/js/select2/select2.min.js"></script> 
+<script src="/www/assets/js/jquery-ui/jquery-ui.min.js"></script> 
+<script src="/www/assets/js/selectboxit/jquery.selectBoxIt.min.js"></script> 
+<script src="/www/assets/js/tagsinput/bootstrap-tagsinput.min.js"></script> 
+<script src="/www/assets/js/typeahead.bundle.js"></script> 
+<script src="/www/assets/js/handlebars.min.js"></script> 
+<script src="/www/assets/js/multiselect/js/jquery.multi-select.js"></script> 
+<!-- chart --> 
+<script src="/www/assets/js/chart/Chart.bundle.js"></script> 
+<script src="/www/assets/js/chart/utils.js"></script> 
+<script type="text/javascript">
+	 
+			var randomScalingFactor = function() {
+			return Math.round(Math.random() * 100);
+		};
+
+		var config1 = {
+			type: 'doughnut',
+			data: {
+				datasets: [{
+					data: [
+						<%=100-project[5][0].t_plan%>,
+					<%=project[5][0].t_plan%>	
+					],
+					backgroundColor: [
+						window.chartColors.red,
+						window.chartColors.blue,
+					],
+					label: 'Dataset 1'
+				}],
+				labels: [
+					'未完成',
+					'完成',
+				]
+			},
+			options: {
+				responsive: true,
+				legend: {
+					position:'right',
+					display: false,
+				},
+				title: {
+					display: false,
+					text: 'Chart.js Doughnut Chart'
+				},
+				animation: {
+					animateScale: true,
+					animateRotate: true
+				}
+			}
+		};
+		 
+	 		
+		$(function($) {
+  		 var ctx1 = document.getElementById('chart-area_1').getContext('2d');
+			window.myDoughnut = new Chart(ctx1, config1);	
+		});
+	
+		var colorNames = Object.keys(window.chartColors);
+	</script>
+<!-- JavaScripts initializations and stuff --> 
+<script src="/www/assets/js/xenon-custom.js"></script>
+</body>
+</html>
+

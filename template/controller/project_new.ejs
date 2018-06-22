@@ -1,0 +1,294 @@
+ <% include top.ejs %>
+  <div class="page-title">
+    <div class="title-env">
+      <h1 class="title">项目</h1>
+      <p class="description">project</p>
+    </div>
+    <div class="breadcrumb-env">
+      <ol class="breadcrumb bc-1"> <li> <a href="/controller/"><i class="fa-home"></i>首页</a> </li>
+        <li class="active"> <strong>项目创建</strong> </li>
+      </ol>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">项目创建</h3>
+        </div>
+        <div class="panel-body form-horizontal">
+     
+			<div class="form-group">
+              <label class="col-sm-2 control-label" >项目类型</label>
+              <script type="text/javascript">
+					jQuery(document).ready(function($)
+					{
+						$("#s2example-1").select2({
+							placeholder: '选择项目类型',
+							allowClear: true
+						}).on('select2-open', function()
+						{
+							// Adding Custom Scrollbar
+							$(this).data('select2').results.addClass('overflow-hidden').perfectScrollbar();
+						});
+						
+					});
+				</script>
+              <div class="col-sm-10">
+                <select class="form-control " id="s2example-type">
+                  <option>请选择项目类型</option>
+                  <optgroup label="请选择">
+                  <option>效果图</option>
+                  <option>动画</option>
+                  <option>平面</option>
+                  <option>网站</option>
+                  </optgroup>
+                </select>
+              </div>
+            </div>  
+            <div class="form-group">
+              <label class="col-sm-2 control-label" for="field-1">项目名称</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="field-name" placeholder="请输入项目名称" value="">
+              </div>
+            </div>
+            
+            <div class="form-group-separator"></div>
+            <div class="form-group">
+              <label class="col-sm-2 control-label" for="field-time">(计划)制作时间</label>
+              <div class="col-sm-10">
+                <input type="text" id="field-time" class="form-control daterange" data-time-picker="true" data-time-picker-increment="5" data-format="YYYY/MM/DD HH:mm" placeholder="请选择任务周期" value=""/>
+              </div>
+            </div>
+            <div class="form-group-separator"></div>
+            <div class="form-group">
+              <label class="col-sm-2 control-label" for="field-3">用　　途</label>
+              <div class="col-sm-10">
+                <input type="email" class="form-control" id="field-purpose" placeholder="请输入用途" value="">
+              </div>
+            </div>
+			<div class="form-group-separator"></div>
+            <div class="form-group">
+              <label class="col-sm-2 control-label" for="field-3">尺　　寸</label>
+              <div class="col-sm-10">
+                <input type="email" class="form-control" id="field-size" placeholder="请输入尺寸" value="">
+              </div>
+            </div>
+			<div class="form-group-separator"></div>
+            <div class="form-group">
+              <label class="col-sm-2 control-label" for="field-3">项目参考</label>
+              <div class="col-sm-10">
+                <input type="email" class="form-control" id="field-consult" placeholder="请输入在服务上的项目参考文件夹的路径 " value="">
+              </div>
+            </div> 
+			<div class="form-group-separator"></div>
+            <div class="form-group">
+              <label class="col-sm-2 control-label" for="field-5">项目标准</label>
+              <div class="col-sm-10">
+				 <input type="email" class="form-control" id="field-standard" placeholder="请输入在服务上的项目标准文件夹的路径"  value="">
+              </div>
+            </div>
+			<div class="form-group-separator"></div>
+			<div class="form-group">
+									<label class="col-sm-2 control-label">项目团队</label>
+									<script type="text/javascript">
+										jQuery(document).ready(function($)
+										{
+											$("#s2example-team").select2({
+												placeholder: '请选择项目团队成员',
+												allowClear: true
+											}).on('select2-open', function()
+											{
+												// Adding Custom Scrollbar
+												$(this).data('select2').results.addClass('overflow-hidden').perfectScrollbar();
+											});
+											
+										});
+									</script>
+									 <div class="col-sm-10">
+									<select class="form-control " id="s2example-team" multiple>
+										<option></option>
+										<optgroup label="选择项目团队成员">
+											<%for(var i=0;i<eadmin.length;i++){%>
+											<option><%=eadmin[i].name_zh%></option>
+											<%}%>
+	
+										</optgroup>
+									</select>
+									</div>	
+								</div>
+            <div class="form-group-separator"></div>
+            <div class="form-group">
+              <label class="col-sm-2 control-label" for="field-5">项目说明</label>
+              <div class="col-sm-10">
+                <textarea class="form-control" cols="5" id="field-say" placeholder="请输入项目说明"   value=""></textarea>
+              </div>
+            </div>
+			<div class="form-group-separator"></div>
+            <div class="form-group">
+              <label class="col-sm-2 control-label" for="field-4">时间表</label>
+				<input id="file_pic_src"    type="hidden" value="">
+              <div class="col-sm-10" >
+                 <input id="file_upload" name="file_upload"  type="file" multiple="true">
+				  <div id="time_pic">
+				  
+				  </div>
+              </div>
+            </div>
+            <div class="form-group has-error">
+              <label class="col-sm-2"></label>
+              <div class="form-group col-sm-10 ">
+                <button id="form_post"  type="submit" class="btn btn-success">提交</button>
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script type="text/javascript">
+				$(function(){
+					$("#form_post").click(function(){
+						var reg = /\\/g;
+						var reg2 = /\-/g;
+						var oType =$("#s2example-type").val();
+						var oProject =$("#field-name").val().replace(reg2, '/');
+						var oTime_from =Date.parse($("#field-time").val().split("-")[0]);
+						var oTime_to =Date.parse($("#field-time").val().split("-")[1]);
+						var oPurpose =$("#field-purpose").val();
+						var oSize =$("#field-size").val();
+						var oConsult =$("#field-consult").val().replace(reg, '/');
+						var oStandard =$("#field-standard").val().replace(reg, '/');
+						var oSay =$("#field-say").val().replace(reg, '/');
+						var oFile_pic_src=$("#file_pic_src").val();
+						var team_arr=$("#s2example-team").val();
+						var o=[<%for(var i=0;i<eadmin.length;i++){%>["<%=eadmin[i].username%>","<%=eadmin[i].name_zh%>"],<%}%>];
+							   
+						var oTeam_a=[];
+						if(team_arr){
+						   	for (var i=0;i<team_arr.length;i++){
+							  for (var n=0;n<o.length;n++){
+								  if(o[n][1]==team_arr[i]){
+									  oTeam_a.push(o[n][0]);
+								  }
+							  }
+							}
+						   }
+						
+						var oTeam=oTeam_a.toString();
+						
+						
+						if(oType!=="" && oProject!=="" && oTime_from!=="" && oTime_to!=="" && oPurpose!==""  &&  oSize!=="" &&  oSay!=="" && oFile_pic_src!==""  ){
+									$.ajax({
+									//几个参数需要注意一下
+										type: "POST",//方法类型
+										dataType: "json",//预期服务器返回的数据类型
+										url: "/controller/project/new" ,//url
+										data: {
+												type: oType,/*项目类型*/
+												name: oProject,/*项目名称*/
+												time_from: oTime_from,/*制作时间-开始*/
+												time_to: oTime_to,/*制作时间-结束*/
+												purpose: oPurpose,/*用途*/
+												size:  oSize ,/*尺寸*/
+												consult:oConsult ,/*项目参考*/
+												standard:  oStandard  ,/*项目标准*/
+												say: oSay  ,/*项目说明*/
+												time_pic:oFile_pic_src,/*项目时间表*/
+												team:oTeam,/*项目团队*/
+										},
+										success: function (result) {
+											console.log(result);//打印服务端返回的数据(调试用)
+											if (result.resultCode == 200) {
+												alert("项目创建成功");
+												window.location.href = '/controller/project'; 
+											};
+										},
+										error : function() {
+											alert("异常！");
+										}
+									});
+						   }else{
+						     alert("请填写完整！");
+						   }
+						
+						
+						}) ;
+				}) 
+					 
+					
+			 
+				</script>
+  <!-- Main Footer --> 
+  <!-- Choose between footer styles: "footer-type-1" or "footer-type-2" --> 
+  <!-- Add class "sticky" to  always stick the footer to the end of page (if page contents is small) --> 
+  <!-- Or class "fixed" to  always fix the footer to the end of page -->
+      <% include footer.ejs %>
+  </div>
+</div>
+<div class="modal fade custom-width" id="modal-2">
+  <div class="modal-dialog" style="width: 60%;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">项目时间表</h4>
+      </div>
+      <div class="modal-body"> 时间表图片 </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-white" data-dismiss="modal">关闭</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<link rel="stylesheet"    href="/www/assets/js/uploadify/uploadify.css"/>
+<link rel="stylesheet"  href="/www/assets/js/uploadify/style.css"/>
+<script src="/www/assets/js/uploadify/jquery.uploadify.js"></script> 
+<script type="text/javascript">
+    $(function() {
+        $('#file_upload').uploadify({
+			height: 30,
+			 fileTypeExts: '*.jpg',//设置上传文件的类型
+            'swf'      : '/www/assets/js/uploadify/uploadify.swf',
+            'uploader' : '/controller/project/update_pic',
+            // Your options here
+		'onUploadSuccess' : function(file, data, response) {
+		    
+ 			var pic_src=data.split('"')[3];
+            $("#time_pic").html('<ul class="list-unstyled list-inline"><li><img src="/upload/'+pic_src+'" class="img-thumbnail"></li></ul>');
+			 $("#file_pic_src").val(pic_src);
+        }
+        });
+    });
+    </script>
+<!-- Imported styles on this page -->
+<link rel="stylesheet" href="/www/assets/js/daterangepicker/daterangepicker-bs3.css">
+<link rel="stylesheet" href="/www/assets/js/select2/select2.css">
+<link rel="stylesheet" href="/www/assets/js/select2/select2-bootstrap.css">
+<link rel="stylesheet" href="/www/assets/js/multiselect/css/multi-select.css">
+
+<!-- Bottom Scripts --> 
+<script src="/www/assets/js/bootstrap.min.js"></script> 
+<script src="/www/assets/js/TweenMax.min.js"></script> 
+<script src="/www/assets/js/resizeable.js"></script> 
+<script src="/www/assets/js/joinable.js"></script> 
+<script src="/www/assets/js/xenon-api.js"></script> 
+<script src="/www/assets/js/xenon-toggles.js"></script> 
+<script src="/www/assets/js/moment.min.js"></script> 
+
+<!-- Imported scripts on this page --> 
+<script src="/www/assets/js/daterangepicker/daterangepicker.js"></script> 
+<script src="/www/assets/js/datepicker/bootstrap-datepicker.js"></script>
+<script src="/www/assets/js/timepicker/bootstrap-timepicker.min.js"></script> 
+<script src="/www/assets/js/colorpicker/bootstrap-colorpicker.min.js"></script> 
+<script src="/www/assets/js/select2/select2.min.js"></script> 
+<script src="/www/assets/js/jquery-ui/jquery-ui.min.js"></script> 
+<script src="/www/assets/js/selectboxit/jquery.selectBoxIt.min.js"></script> 
+<script src="/www/assets/js/tagsinput/bootstrap-tagsinput.min.js"></script> 
+<script src="/www/assets/js/typeahead.bundle.js"></script> 
+<script src="/www/assets/js/handlebars.min.js"></script> 
+<script src="/www/assets/js/multiselect/js/jquery.multi-select.js"></script> 
+
+<!-- JavaScripts initializations and stuff --> 
+<script src="/www/assets/js/xenon-custom.js"></script>
+</body>
+</html>

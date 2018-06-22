@@ -1,0 +1,165 @@
+<% include ../top.ejs %>
+  <div class="page-title">
+    <div class="title-env">
+      <h1 class="title">搜索</h1>
+      <p class="description">Search</p>
+    </div>
+    <div class="breadcrumb-env">
+      <ol class="breadcrumb bc-1">
+        <li> <a href="../index.html"><i class="fa-home"></i>首页</a> </li>
+        <li class="active"> <strong>日志搜索</strong> </li>
+      </ol>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">日志搜索</h3>
+        </div>
+        <div class="panel-body form-horizontal">
+			<div class="row">
+            <div class="form-group col-sm-6">
+              <label class="col-sm-2 control-label" >项目名称</label>
+              <script type="text/javascript">
+										jQuery(document).ready(function($)
+										{
+											$("#s2example-1").select2({
+												placeholder: '请选择项目',
+												allowClear: true
+											}).on('select2-open', function()
+											{
+												// Adding Custom Scrollbar
+												$(this).data('select2').results.addClass('overflow-hidden').perfectScrollbar();
+											});
+											
+										});
+									</script>
+              <div class="col-sm-10">
+                <select class="form-control " id="s2example-1">
+                  <option></option>
+                  <optgroup label="请选择">
+                  <option>福田</option>
+                  <option>磁浮</option>
+                  <option>机车</option>
+                  <option>粤海蓝图</option>
+                  </optgroup>
+                </select>
+              </div>
+              
+            </div>
+            
+            <div class="form-group  col-sm-6">
+              <label class="col-sm-2 control-label" for="field-5">时间段</label>
+              <div class="col-sm-10">
+                <input type="text" id="field-5" class="form-control daterange" data-time-picker="true" data-time-picker-increment="5" data-format="MM/DD/YYYY h:mm A" placeholder="请选择任务周期"/>
+              </div>
+            </div>
+            </div>
+			<div class="row">
+             
+            <div class="form-group col-sm-6">
+              <label class="col-sm-2 control-label" >姓名</label>
+              <script type="text/javascript">
+										jQuery(document).ready(function($)
+										{
+											$("#s2example-3").select2({
+												placeholder: '请选择姓名',
+												allowClear: true
+											}).on('select2-open', function()
+											{
+												// Adding Custom Scrollbar
+												$(this).data('select2').results.addClass('overflow-hidden').perfectScrollbar();
+											});
+											
+										});
+									</script>
+              <div class="col-sm-10">
+                <select class="form-control " id="s2example-3">
+                  <option></option>
+                  <optgroup label="请选择">
+                  <option></option>
+                  <option>商祥建</option>
+                  <option>李晓旭</option>
+                  <option>孙象义</option>
+                  </optgroup>
+                </select>
+              </div>
+              
+            </div>
+				
+				<div class="form-group  col-sm-6">
+              <label class="col-sm-2 control-label" for="field-4">内容关键词</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="field-4" placeholder="请输入关键词">
+              </div>
+            </div>
+            </div>
+			
+             
+			
+            <div class="form-group has-error">
+              <label class="col-sm-1"></label>
+              <div class="form-group col-sm-11">
+                <button type="submit" class="btn btn-success">搜索</button>
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Main Footer --> 
+  <!-- Choose between footer styles: "footer-type-1" or "footer-type-2" --> 
+  <!-- Add class "sticky" to  always stick the footer to the end of page (if page contents is small) --> 
+  <!-- Or class "fixed" to  always fix the footer to the end of page -->
+        <% include ../footer.ejs %>
+  </div>
+</div>
+<div class="modal fade custom-width" id="modal-2">
+  <div class="modal-dialog" style="width: 60%;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">项目时间表</h4>
+      </div>
+      <div class="modal-body"> 时间表图片 </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-white" data-dismiss="modal">关闭</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Imported styles on this page -->
+<link rel="stylesheet" href="/www/assets/js/daterangepicker/daterangepicker-bs3.css">
+<link rel="stylesheet" href="/www/assets/js/select2/select2.css">
+<link rel="stylesheet" href="/www/assets/js/select2/select2-bootstrap.css">
+<link rel="stylesheet" href="/www/assets/js/multiselect/css/multi-select.css">
+
+<!-- Bottom Scripts --> 
+<script src="/www/assets/js/bootstrap.min.js"></script> 
+<script src="/www/assets/js/TweenMax.min.js"></script> 
+<script src="/www/assets/js/resizeable.js"></script> 
+<script src="/www/assets/js/joinable.js"></script> 
+<script src="/www/assets/js/xenon-api.js"></script> 
+<script src="/www/assets/js/xenon-toggles.js"></script> 
+<script src="/www/assets/js/moment.min.js"></script> 
+
+<!-- Imported scripts on this page --> 
+<script src="/www/assets/js/daterangepicker/daterangepicker.js"></script> 
+<script src="/www/assets/js/datepicker/bootstrap-datepicker.js"></script> 
+<script src="/www/assets/js/timepicker/bootstrap-timepicker.min.js"></script> 
+<script src="/www/assets/js/colorpicker/bootstrap-colorpicker.min.js"></script> 
+<script src="/www/assets/js/select2/select2.min.js"></script> 
+<script src="/www/assets/js/jquery-ui/jquery-ui.min.js"></script> 
+<script src="/www/assets/js/selectboxit/jquery.selectBoxIt.min.js"></script> 
+<script src="/www/assets/js/tagsinput/bootstrap-tagsinput.min.js"></script> 
+<script src="/www/assets/js/typeahead.bundle.js"></script> 
+<script src="/www/assets/js/handlebars.min.js"></script> 
+<script src="/www/assets/js/multiselect/js/jquery.multi-select.js"></script> 
+
+<!-- JavaScripts initializations and stuff --> 
+<script src="/www/assets/js/xenon-custom.js"></script>
+</body>
+</html>

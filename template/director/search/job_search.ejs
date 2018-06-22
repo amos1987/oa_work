@@ -1,0 +1,450 @@
+ <% include ../top.ejs %>
+  <div class="page-title">
+    <div class="title-env">
+      <h1 class="title">搜索</h1>
+      <p class="description">Search</p>
+    </div>
+    <div class="breadcrumb-env">
+      <ol class="breadcrumb bc-1">
+        <li> <a href="../index.html"><i class="fa-home"></i>首页</a> </li>
+        <li class="active"> <strong>任务搜索</strong> </li>
+      </ol>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">任务搜索</h3>
+        </div>
+        <div class="panel-body form-horizontal">
+			<div class="row">
+            <div class="form-group col-sm-6">
+              <label class="col-sm-2 control-label" >项目名称</label>
+              <script type="text/javascript">
+										jQuery(document).ready(function($)
+										{
+											$("#s2example-1").select2({
+												placeholder: '请选择项目',
+												allowClear: true
+											}).on('select2-open', function()
+											{
+												// Adding Custom Scrollbar
+												$(this).data('select2').results.addClass('overflow-hidden').perfectScrollbar();
+											});
+											
+										});
+									</script>
+              <div class="col-sm-10">
+                <select class="form-control " id="s2example-1">
+                  <option></option>
+                  <optgroup label="请选择">
+					<%for(var i=0;i<data[0].length;i++){%>
+					   <option><%=data[0][i].p_name%>-<%=data[0][i].p_number%></option>
+					 <% }%>  
+                  </optgroup>
+                </select>
+              </div>
+
+            </div>
+           
+            <div class="form-group  col-sm-6">
+              <label class="col-sm-2 control-label" for="field-5">时间段</label>
+              <div class="col-sm-10">
+                <input type="text" id="s2example-2" class="form-control daterange" data-time-picker="true" data-time-picker-increment="5" data-format="YYYY/MM/DD HH:mm" placeholder="请选择任务周期"/>
+              </div>
+            </div>
+            </div>
+			<div class="row">
+            <div class="form-group col-sm-6">
+              <label class="col-sm-2 control-label" >任务状态</label>
+              <script type="text/javascript">
+										jQuery(document).ready(function($)
+										{
+											$("#s2example-3").select2({
+												placeholder: '请选择项目名称',
+												allowClear: true
+											}).on('select2-open', function()
+											{
+												// Adding Custom Scrollbar
+												$(this).data('select2').results.addClass('overflow-hidden').perfectScrollbar();
+											});
+											
+										});
+									</script>
+              <div class="col-sm-10">
+                <select class="form-control " id="s2example-3">
+                  <option></option>
+                  <optgroup label="请选择">
+                  <option>进行中</option>
+                  <option>任务结束</option>
+                  
+                  </optgroup>
+                </select>
+              </div>
+              
+            </div>
+            <div class="form-group col-sm-6">
+              <label class="col-sm-2 control-label" >姓名</label>
+              <script type="text/javascript">
+										jQuery(document).ready(function($)
+										{
+											$("#s2example-4").select2({
+												placeholder: '请选择姓名',
+												allowClear: true
+											}).on('select2-open', function()
+											{
+												// Adding Custom Scrollbar
+												$(this).data('select2').results.addClass('overflow-hidden').perfectScrollbar();
+											});
+											
+										});
+									</script>
+              <div class="col-sm-10">
+                <select class="form-control " id="s2example-4">
+                  <option></option>
+                  <optgroup label="请选择">
+                  <option></option>
+                  <%for(var i=0;i<data[1].length;i++){%>
+					   <option><%=data[1][i].name_zh%></option>
+					 <% }%>  
+                  </optgroup>
+                </select>
+              </div>
+              
+            </div>  
+            </div>
+			
+            <div class="row">
+            <div class="form-group col-sm-6">
+              <label class="col-sm-2 control-label" >推迟次数</label>
+              <script type="text/javascript">
+										jQuery(document).ready(function($)
+										{
+											$("#s2example-5").select2({
+												placeholder: '请选择推迟次数',
+												allowClear: true
+											}).on('select2-open', function()
+											{
+												// Adding Custom Scrollbar
+												$(this).data('select4').results.addClass('overflow-hidden').perfectScrollbar();
+											});
+											
+										});
+									</script>
+              <div class="col-sm-10">
+                <select class="form-control " id="s2example-5">
+                  <option></option>
+                  <optgroup label="请选择">
+                  <option>1</option>
+                  <option>2</option>
+                  <option>3</option>
+                  <option>4</option>
+                  <option>5</option>
+                  <option>6</option>
+                  <option>7</option>
+                  <option>8</option>
+                  <option>9</option>
+                  </optgroup>
+                </select>
+              </div>
+              
+            </div>
+            <div class="form-group col-sm-6">
+              <label class="col-sm-2 control-label" >驳回次数</label>
+              <script type="text/javascript">
+										jQuery(document).ready(function($)
+										{
+											$("#s2example-6").select2({
+												placeholder: '请选择推迟次数',
+												allowClear: true
+											}).on('select2-open', function()
+											{
+												// Adding Custom Scrollbar
+												$(this).data('select4').results.addClass('overflow-hidden').perfectScrollbar();
+											});
+											
+										});
+									</script>
+              <div class="col-sm-10">
+                <select class="form-control " id="s2example-6">
+                  <option></option>
+                  <optgroup label="请选择">
+                  <option>1</option>
+                  <option>2</option>
+                  <option>3</option>
+                  <option>4</option>
+                  <option>5</option>
+                  <option>6</option>
+                  <option>7</option>
+                  <option>8</option>
+                  <option>9</option>
+                   
+                  </optgroup>
+                </select>
+              </div>
+              
+            </div> 
+
+            </div>
+			
+            <div class="form-group has-error">
+              <label class="col-sm-1"></label>
+              <div class="form-group col-sm-11 ">
+                <button id="form_post" type="submit" class="btn btn-success">搜索</button>
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+   <div class="panel panel-default">
+	   你搜索了，
+	   "<b class="search_t">福特</b>",
+	   "<b class="search_t">06/04/2018 12:00 AM - 06/04/2018 11:59 PM</b>",
+	   "<b class="search_t">待审核</b>",
+	   "<b class="search_t">李晓旭</b>"，
+	   "推迟<b class="search_t">1</b>次"，
+	   "驳回<b class="search_t">1</b>次"；
+	   <span class="search_s">共搜到<b class="search_st">10</b>条结果</span>
+	</div>
+
+<% if(data[2]){%>
+      <% for(var i=0;i<data[2].length;i++){%>
+		<% var user_type=null%>
+		<% for(var x =0;x<data[1].length;x++){%>
+				<%if(data[2][i].account==data[1][x].username){%>
+						<% user_type=data[1][x].type%>
+					<%}%>
+				<% }%>
+		
+   	 <% if(user_type=="controller"){%>	
+ <a href="/controller/task_self/task_self_con/?id=<%= data[2][i].id %>&t_number=<%= data[2][i].t_number %>" target="_self">			
+      <div class="panel col-sm-12 panel-default">
+        <div class="col-sm-8 border_right ">
+          <h3 class="row padding_b10"><%= data[2][i].t_name %></h3>
+          <div class="row">
+			 <p class="col-sm-3 padding-left-0">项目名称：
+				 <% for(var x =0;x<data[0].length;x++){%>
+					<%if(data[0][x].p_number==data[2][i].p_number){%>
+						<%=data[0][x].p_name%>
+					<%}%>
+				<% }%></p>
+			 <p class="col-sm-9">任务周期：
+				 
+				 <%=new Date(parseInt(data[2][i].wheel_s)).getFullYear()  %>/
+				 <%=new Date(parseInt(data[2][i].wheel_s)).getMonth()+1 %>/
+				 <%=new Date(parseInt(data[2][i].wheel_s)).getDate()+1  %>       
+				  <%=(new Date(parseInt(data[2][i].wheel_s)).getHours())<10?"0"+(new Date(parseInt(data[2][i].wheel_s)).getHours()): new Date(parseInt(data[2][i].wheel_s)).getHours() %>:
+				 <%=(new Date(parseInt(data[2][i].wheel_s)).getMinutes())<10?"0"+(new Date(parseInt(data[2][i].wheel_s)).getMinutes()): new Date(parseInt(data[2][i].wheel_s)).getMinutes() %> 
+				 至
+				 <%=new Date(parseInt(data[2][i].wheel_e)).getFullYear()  %>/
+				 <%=new Date(parseInt(data[2][i].wheel_e)).getMonth()+1%>/
+				 <%= new Date(parseInt(data[2][i].wheel_e)).getDate()+1 %>
+				  <%=(new Date(parseInt(data[2][i].wheel_e)).getHours())<10?"0"+(new Date(parseInt(data[2][i].wheel_e)).getHours()): new Date(parseInt(data[2][i].wheel_e)).getHours() %>:
+				 <%=(new Date(parseInt(data[2][i].wheel_e)).getMinutes())<10?"0"+(new Date(parseInt(data[2][i].wheel_e)).getMinutes()): new Date(parseInt(data[2][i].wheel_e)).getMinutes() %> 
+				 共<%=Math.floor((parseInt(data[2][i].wheel_e)-parseInt(data[2][i].wheel_s))/86400000*10)/10%> 天
+			  
+          </div>
+			 <p class="row">[验证标准]路径:<%= data[2][i].val_path.replace(/\//g, '\\') %></p>
+          <p class="row">任务内容:<%= data[2][i].detailed %></p>
+        </div>
+		  
+        <div class="col-sm-2 border_right">
+          <h4 class="col-sm-12 padding_b10">任务状态</h4>
+          <p class="col-sm-12">剩余制作时间：<b><%=Math.floor((parseInt(data[2][i].wheel_e)-parseInt(Date.parse(new Date())))/86400000*10)/10%></b>天</p>
+          <p class="col-sm-12">当前完成进度：<b><%= data[2][i].t_plan %>%</b></p>
+          <p class="col-sm-12">当前制作状态：<%if( data[2][i].state=="review"){%>待审核<%	}else if (data[2][i].state=="ing") {%>	进行中 <%}else{%> 结束<%}%>	</p>
+        </div>
+         
+        <div class="col-sm-2">
+ 				<canvas id="chart-area_<%= data[2][i].id %>"></canvas>
+        </div>
+ 
+      </div>
+</a>
+		
+	  <% }else{%>
+		<!-- 需要其他主管审核 --> 
+		<%if(data[2][i].state=="ing"){%>
+		 	<a href="/controller/task_self/task_self_task/?id=<%= data[2][i].id %>&t_number=<%= data[2][i].t_number %>" target="_self">	
+		<%}else{%>
+		 	<a href="#" target="_self">	
+		<%}%>
+		  <div class="panel col-sm-12 panel-default">	 
+        <div class="col-sm-6 border_right ">
+          <h3 class="row padding_b10"><%= data[2][i].t_name %></h3>
+          <div class="row">
+			 <p class="col-sm-5 padding-left-0">项目名称1： 
+			  <% for(var x =0;x<data[0].length;x++){%>
+					<%if(data[0][x].p_number==data[2][i].p_number){%>
+						<%=data[0][x].p_name%>
+					<%}%>
+				<% }%>
+			  </p>
+			 <p class="col-sm-7">任务周期：
+			  	<%=new Date(parseInt(data[2][i].wheel_s)).getFullYear()  %>/
+				 <%=new Date(parseInt(data[2][i].wheel_s)).getMonth()+1 %>/
+				 <%=new Date(parseInt(data[2][i].wheel_s)).getDate()+1  %>       
+				  <%=(new Date(parseInt(data[2][i].wheel_s)).getHours())<10?"0"+(new Date(parseInt(data[2][i].wheel_s)).getHours()): new Date(parseInt(data[2][i].wheel_s)).getHours() %>:
+				 <%=(new Date(parseInt(data[2][i].wheel_s)).getMinutes())<10?"0"+(new Date(parseInt(data[2][i].wheel_s)).getMinutes()): new Date(parseInt(data[2][i].wheel_s)).getMinutes() %> 
+				 至
+				 <%=new Date(parseInt(data[2][i].wheel_e)).getFullYear()  %>/
+				 <%=new Date(parseInt(data[2][i].wheel_e)).getMonth()+1%>/
+				 <%= new Date(parseInt(data[2][i].wheel_e)).getDate()+1 %>
+				  <%=(new Date(parseInt(data[2][i].wheel_e)).getHours())<10?"0"+(new Date(parseInt(data[2][i].wheel_e)).getHours()): new Date(parseInt(data[2][i].wheel_e)).getHours() %>:
+				 <%=(new Date(parseInt(data[2][i].wheel_e)).getMinutes())<10?"0"+(new Date(parseInt(data[2][i].wheel_e)).getMinutes()): new Date(parseInt(data[2][i].wheel_e)).getMinutes() %> 
+				 共<%=Math.floor((parseInt(data[2][i].wheel_e)-parseInt(data[2][i].wheel_s))/86400000*10)/10%> 天
+			  </p>
+          </div>
+		<p class="row">[验证标准]路径:<%= data[2][i].val_path.replace(/\//g, '\\') %></p>	
+          <p class="row">任务内容:<%= data[2][i].detailed %></p>
+        </div>
+        <div class="col-sm-2 border_right">
+          <h4 class="col-sm-12 padding_b10">任务状态</h4>
+           <p class="col-sm-12">剩余制作时间：<b><%=Math.floor((parseInt(data[2][i].wheel_e)-parseInt(Date.parse(new Date())))/86400000*10)/10%></b>天</p>
+          <p class="col-sm-12">当前完成进度：<b><%= data[2][i].t_plan %>%</b></p>
+          <p class="col-sm-12">当前制作状态：<%if( data[2][i].state=="review"){%>待审核<%	}else if (data[2][i].state=="ing") {%>	进行中 <%}else{%> 结束<%}%></p>
+        </div>
+        <div class="col-sm-2 border_right">
+          <h4 class="col-sm-12 padding_b10">实际状态</h4>
+          <p class="col-sm-12">驳回次数：<b> 0  </b>次</p>
+          <p class="col-sm-12">实际耗时：<b><%= data[2][i].consuming %>  H</b></p>
+          <p class="col-sm-12">推迟次数：<b> 0 </b> 次</p>
+        </div>
+        <div class="col-sm-2">
+
+          <canvas id="chart-area_<%= data[2][i].id %>"></canvas>
+        </div>
+        </div>
+			 
+		</a> 
+		
+		  <% }%>
+      <% }%> <!-- for --> 
+<% }else{%> <!--if --> 
+				<h5>--</h5>		
+				  <% }%>
+  <!-- Main Footer --> 
+  <!-- Choose between footer styles: "footer-type-1" or "footer-type-2" --> 
+  <!-- Add class "sticky" to  always stick the footer to the end of page (if page contents is small) --> 
+  <!-- Or class "fixed" to  always fix the footer to the end of page -->
+   <% include ../footer.ejs %>
+  </div>
+</div>
+
+<script type="text/javascript">
+				$(function(){
+					$("#form_post").click(function(){
+				 
+						var project=$("#s2example-1").val();//项目名称
+						var time_from = Date.parse($("#s2example-2").val().split("-")[0]);//时间开始  
+						var time_to = Date.parse($("#s2example-2").val().split("-")[1]);//时间结束
+						var state =$("#s2example-3").val();//任务状态
+						var name =$("#s2example-4").val();//姓名
+						var tuichi =$("#s2example-5").val();//推迟次数
+						var bohui =$("#s2example-6").val();//驳回次数
+						
+						window.location.href = '/director/search/job_res?project='+project+'&time_from='+time_from+'&time_to='+time_to+'&state='+state+'&name='+name+'&tuichi='+tuichi+'&bohui='+bohui; 
+
+						}) ;
+				}) 
+					 
+					
+			 
+				</script>
+<!-- Imported styles on this page -->
+<link rel="stylesheet" href="/www/assets/js/daterangepicker/daterangepicker-bs3.css">
+<link rel="stylesheet" href="/www/assets/js/select2/select2.css">
+<link rel="stylesheet" href="/www/assets/js/select2/select2-bootstrap.css">
+<link rel="stylesheet" href="/www/assets/js/multiselect/css/multi-select.css">
+
+<!-- Bottom Scripts --> 
+<script src="/www/assets/js/bootstrap.min.js"></script> 
+<script src="/www/assets/js/TweenMax.min.js"></script> 
+<script src="/www/assets/js/resizeable.js"></script> 
+<script src="/www/assets/js/joinable.js"></script> 
+<script src="/www/assets/js/xenon-api.js"></script> 
+<script src="/www/assets/js/xenon-toggles.js"></script> 
+<script src="/www/assets/js/moment.min.js"></script> 
+
+<!-- Imported scripts on this page --> 
+<script src="/www/assets/js/daterangepicker/daterangepicker.js"></script> 
+<script src="/www/assets/js/datepicker/bootstrap-datepicker.js"></script> 
+<script src="/www/assets/js/timepicker/bootstrap-timepicker.min.js"></script> 
+<script src="/www/assets/js/colorpicker/bootstrap-colorpicker.min.js"></script> 
+<script src="/www/assets/js/select2/select2.min.js"></script> 
+<script src="/www/assets/js/jquery-ui/jquery-ui.min.js"></script> 
+<script src="/www/assets/js/selectboxit/jquery.selectBoxIt.min.js"></script> 
+<script src="/www/assets/js/tagsinput/bootstrap-tagsinput.min.js"></script> 
+<script src="/www/assets/js/typeahead.bundle.js"></script> 
+<script src="/www/assets/js/handlebars.min.js"></script> 
+<script src="/www/assets/js/multiselect/js/jquery.multi-select.js"></script> 
+<!-- chart --> 
+<script src="/www/assets/js/chart/Chart.bundle.js"></script> 
+<script src="/www/assets/js/chart/utils.js"></script> 
+<script type="text/javascript">
+	 
+			var randomScalingFactor = function() {
+			return Math.round(Math.random() * 100);
+		};
+	<% if(data[2]){%>
+    <% for(var i=0;i<data[2].length;i++){	%>	
+	 
+		var config<%=data[2][i].id %> = {
+			type: 'doughnut',
+			data: {
+				datasets: [{
+					data: [
+					<%=100-data[2][i].t_plan%>,
+					<%=data[2][i].t_plan%>	
+					],
+					backgroundColor: [
+						window.chartColors.red,
+						window.chartColors.blue,
+					],
+					label: 'Dataset 1'
+				}],
+				labels: [
+					'未完成',
+					'完成',
+				]
+			},
+			options: {
+					responsive: true,
+					legend: {
+					position:'right',
+					display: false,
+				},
+				title: {
+					display: false,
+					text: 'Chart.js Doughnut Chart'
+				},
+				animation: {
+					animateScale: true,
+					animateRotate: true
+				}
+			}
+		};
+ 
+<%}%>	
+	<%}%>	
+		$(function($) {
+		<% if(data[2]){%>
+ 	       <% for(var i=0;i<data[2].length;i++){	%>	
+			
+					var ctx<%=data[2][i].id %> = document.getElementById('chart-area_<%=data[2][i].id %>').getContext('2d');
+					window.myDoughnut = new Chart(ctx<%=data[2][i].id %>, config<%=data[2][i].id %>);
+			
+				<%}%>	
+ 			<%}%>	
+		});
+	
+		var colorNames = Object.keys(window.chartColors);
+			
+ 
+	</script> 
+<!-- JavaScripts initializations and stuff --> 
+<script src="/www/assets/js/xenon-custom.js"></script>
+</body>
+</html>

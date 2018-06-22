@@ -1,0 +1,178 @@
+<% include top.ejs %>
+  <div class="page-title">
+    <div class="title-env">
+      <h1 class="title">项目详细</h1>
+      <p class="description">Project details</p>
+    </div>
+    <div class="breadcrumb-env">
+      <ol class="breadcrumb bc-1"> <li> <a href="/controller/"><i class="fa-home"></i>首页</a> </li>
+        <li>  <a href="/controller/project">项目列表</a></li>
+        <li class="active"> <strong>项目详细</strong> </li>
+      </ol>
+    </div>
+  </div>
+<section class="mailbox-env">
+				
+				<div class="row">
+					<!-- Inbox emails -->
+					<div class="col-sm-10 mailbox-right">
+						 <div class="panel panel-default">
+							<div class="mail-single">
+							
+							<!-- Email Title and Button Options -->
+							<div class="mail-single-header">
+								<h2>
+									项目总结
+								</h2>
+								
+								<div class="mail-single-header-options">
+									<a href="/controller/project" class="btn btn-gray btn-icon">
+										<span>返回</span>
+										<i class="fa-reply-all"></i>
+									</a>
+								</div>
+							</div>
+							<!-- Email Body -->
+						 
+							<!-- Email Attachments -->
+						<% if(project[2][0]){%>
+								<table class="table table-model-2 table-hover">
+										<tbody>
+											<tr>
+												<td width="150px;"><h4><b><%=project[3][0].name_zh%>：</b></h4></td>
+												<td ></td>
+											</tr>
+											
+											<tr>
+												<td>标题: </td>
+												<td><%=project[2][0].title%></td>
+											</tr>
+											<tr>
+												<td>发布者: </td>
+												<td><%=project[3][0].name_zh%></td>
+											</tr>
+											<tr>
+												<td>发布时间: </td>
+												<td><%=project[2][0].time%></td>
+											</tr>
+											<tr>
+												<td>总结内容:</td>
+												<td><%-project[2][0].contant%></td>
+											</tr>
+											 
+										</tbody>
+									</table>
+							<%}else{%>
+							<h4>
+									你的小伙伴还没有写总结，请耐心等候 ≧ω≦
+								</h4>
+								<%}%>
+						</div>
+			</div>
+					</div>
+					
+					<!-- Mailbox Sidebar -->
+					<!-- Mailbox Sidebar -->
+					<div class="col-sm-2 mailbox-left">
+						
+						<div class="mailbox-sidebar">
+							
+							<a href="mailbox-compose.html" class="btn btn-block btn-secondary btn-icon btn-icon-standalone btn-icon-standalone-right">
+								<i class="linecons-mail"></i>
+								<span>项目</span>
+							</a>
+							<ul class="list-unstyled mailbox-list">
+								<li class="active">
+									<a href="/controller/project/project_detailed?p_number=<%=project[0][0].p_number%>" target="_self">
+										项目详细
+									</a>
+								</li>
+							</ul>
+							 
+							<ul class="list-unstyled mailbox-list">
+
+								<li class="list-header" >项目任务</li>
+								<%for (var i=0;i<project[1].length;i++){%>
+									<li>
+										<a href="/controller/project/project_d_l?username=<%=project[1][i].username%>&p_number=<%=project[0][0].p_number%>" target="_self">
+											<%=project[1][i].name_zh%>
+										</a>
+									</li>
+								<%}%>
+							</ul>
+							<ul class="list-unstyled mailbox-list">
+
+								<li class="list-header" >项目总结</li>
+								<%for (var i=0;i<project[1].length;i++){%>
+									<li>
+									<a href="/controller/project/project_d_z?p_number=<%=project[0][0].p_number%>&username=<%=project[1][i].username%>" target="_self">
+											<%=project[1][i].name_zh%>
+										</a>
+									</li>
+								<%}%>
+								
+							</ul>
+						</div>
+					</div>
+				</div>
+				
+			</section>	
+  
+  
+  <!-- Main Footer --> 
+  <!-- Choose between footer styles: "footer-type-1" or "footer-type-2" --> 
+  <!-- Add class "sticky" to  always stick the footer to the end of page (if page contents is small) --> 
+  <!-- Or class "fixed" to  always fix the footer to the end of page -->
+      <% include footer.ejs %>
+  </div>
+</div>
+<div class="modal fade custom-width" id="modal-2">
+  <div class="modal-dialog" style="width: 60%;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">项目时间表</h4>
+      </div>
+      <div class="modal-body"> 时间表图片 </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-white" data-dismiss="modal">关闭</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Imported styles on this page -->
+<link rel="stylesheet" href="/www/assets/js/daterangepicker/daterangepicker-bs3.css">
+<link rel="stylesheet" href="/www/assets/js/select2/select2.css">
+<link rel="stylesheet" href="/www/assets/js/select2/select2-bootstrap.css">
+<link rel="stylesheet" href="/www/assets/js/multiselect/css/multi-select.css">
+
+<!-- Bottom Scripts --> 
+<script src="/www/assets/js/bootstrap.min.js"></script> 
+<script src="/www/assets/js/TweenMax.min.js"></script> 
+<script src="/www/assets/js/resizeable.js"></script> 
+<script src="/www/assets/js/joinable.js"></script> 
+<script src="/www/assets/js/xenon-api.js"></script> 
+<script src="/www/assets/js/xenon-toggles.js"></script> 
+<script src="/www/assets/js/moment.min.js"></script> 
+
+<!-- Imported scripts on this page --> 
+<script src="/www/assets/js/daterangepicker/daterangepicker.js"></script> 
+<script src="/www/assets/js/datepicker/bootstrap-datepicker.js"></script> 
+<script src="/www/assets/js/timepicker/bootstrap-timepicker.min.js"></script> 
+<script src="/www/assets/js/colorpicker/bootstrap-colorpicker.min.js"></script> 
+<script src="/www/assets/js/select2/select2.min.js"></script> 
+<script src="/www/assets/js/jquery-ui/jquery-ui.min.js"></script> 
+<script src="/www/assets/js/selectboxit/jquery.selectBoxIt.min.js"></script> 
+<script src="/www/assets/js/tagsinput/bootstrap-tagsinput.min.js"></script> 
+<script src="/www/assets/js/typeahead.bundle.js"></script> 
+<script src="/www/assets/js/handlebars.min.js"></script> 
+<script src="/www/assets/js/multiselect/js/jquery.multi-select.js"></script> 
+<!-- chart --> 
+ 
+ 
+<!-- JavaScripts initializations and stuff --> 
+<script src="/www/assets/js/xenon-custom.js"></script>
+</body>
+</html>
+

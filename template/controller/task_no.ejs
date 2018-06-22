@@ -1,0 +1,436 @@
+ <% include top.ejs %>
+    <div class="page-title">
+      <div class="title-env">
+        <h1 class="title">[进行中]任务详细</h1>
+		<p class="description">Detailed tasks [ongoing]</p>  
+      </div>
+      <div class="breadcrumb-env">
+        <ol class="breadcrumb bc-1"> <li> <a href="/controller/"><i class="fa-home"></i>首页</a> </li>
+		 <li class="active"> <strong>任务详细</strong> </li>	
+        </ol>
+      </div>
+    </div>
+    <div class="col-sm-12">
+      <div class="panel col-sm-12 panel-default panel_blue">
+			<div class="col-sm-6 border_right">
+			  <h3 class="row padding_b10"><%=plan[6][0].t_name%></h3>
+			  <div class="row">
+				<p class="col-sm-5 padding-left-0">项目名称：
+				  <% for(var x =0;x<plan[5].length;x++){%>
+					<%if(plan[6][0].p_number==plan[5][x].p_number){%>
+						<%=plan[5][x].p_name%>
+					<%}%>
+				<% }%>
+				  </p>
+				<p class="col-sm-7">任务周期：
+				  <%=new Date(parseInt(plan[6][0].wheel_s)).getFullYear()  %>/
+				 <%=new Date(parseInt(plan[6][0].wheel_s)).getMonth()+1 %>/
+				 <%=new Date(parseInt(plan[6][0].wheel_s)).getDate()+1  %>       
+				  <%=(new Date(parseInt(plan[6][0].wheel_s)).getHours())<10?"0"+(new Date(parseInt(plan[6][0].wheel_s)).getHours()): new Date(parseInt(plan[6][0].wheel_s)).getHours() %>:
+				 <%=(new Date(parseInt(plan[6][0].wheel_s)).getMinutes())<10?"0"+(new Date(parseInt(plan[6][0].wheel_s)).getMinutes()): new Date(parseInt(plan[6][0].wheel_s)).getMinutes() %> 
+				 至
+				 <%=new Date(parseInt(plan[6][0].wheel_e)).getFullYear()  %>/
+				 <%=new Date(parseInt(plan[6][0].wheel_e)).getMonth()+1%>/
+				 <%= new Date(parseInt(plan[6][0].wheel_e)).getDate()+1 %>
+				  <%=(new Date(parseInt(plan[6][0].wheel_e)).getHours())<10?"0"+(new Date(parseInt(plan[6][0].wheel_e)).getHours()): new Date(parseInt(plan[6][0].wheel_e)).getHours() %>:
+				 <%=(new Date(parseInt(plan[6][0].wheel_e)).getMinutes())<10?"0"+(new Date(parseInt(plan[6][0].wheel_e)).getMinutes()): new Date(parseInt(plan[6][0].wheel_e)).getMinutes() %> 
+				 共<%=Math.floor((parseInt(plan[6][0].wheel_e)-parseInt(plan[6][0].wheel_s))/86400000*10)/10%> 天
+				  </p>
+			  </div>
+			  <p class="row">[验证标准]路径:<%=plan[6][0].val_path.replace(/\//g, '\\')%></p>
+			  <p class="row">任务内容:<%=plan[6][0].detailed%></p>
+			</div>
+			<div class="col-sm-2 border_right">
+			  <h4 class="col-sm-12 padding_b10">任务状态</h4>
+			  <p class="col-sm-12">剩余制作时间：<b><%=Math.floor((parseInt(plan[6][0].wheel_e)-parseInt(Date.parse(new Date())))/86400000*10)/10%></b>天</p>
+			  <p class="col-sm-12">当前完成进度：<b><%=plan[6][0].t_plan %>%</b></p>
+			  <p class="col-sm-12">当前制作状态：<%if( plan[6][0].state=="review"){%>待审核<%	}else {%>	进行中 <%}%></p>
+			</div>
+			<div class="col-sm-2 border_right">
+			  <h4 class="col-sm-12 padding_b10">实际状态</h4>
+			  <p class="col-sm-12">驳回次数：<b><%=plan[6][0].bh%></b>次</p>
+			  <p class="col-sm-12">实际耗时：<b><%=plan[6][0].consuming%>H</b></p>
+			  <p class="col-sm-12">推迟次数：<b><%=plan[6][0].tc%></b> 次</p>
+			</div>
+			<div class="col-sm-2">
+			  <canvas id="chart-area_1"></canvas>
+			</div>
+	
+      </div>
+	 <div class="col-sm-12 padding-left-0 padding_b10">
+		<button  onclick="jQuery('#modal-1').modal('show', {backdrop: 'static'});" class="btn btn-red btn-icon btn-icon-standalone margin_t10_b10"> 
+			<i class="fa-table"></i> <span>任务结束</span> 
+		</button>
+	  </div>	
+      <div class="panel col-sm-12 panel-default">
+         <div class="panel-heading">
+							<h3 class="panel-title">次日工作计划</h3>
+							<div class="panel-options">
+								<a href="#" data-toggle="panel">
+									<span class="collapse-icon">–</span>
+									<span class="expand-icon">+</span>
+								</a>
+								<a href="#" data-toggle="remove">
+									×
+								</a>
+							</div>
+						</div>
+		  
+		 <% if(plan[0].length!==0){%>
+         <div class="panel-body">
+			<h5 class="margin_t10_b25"><b>详细工作内容：</b></h5>  
+			<p class="col-sm-12"><%=plan[0][0].contant %></p>
+			<div class="col-sm-12 padding-left-0 margin_t10_b25">
+			 <h5 class="col-sm-2">预计进度：<%=plan[0][0].plan %>%</h5>
+			 <h5 class="col-sm-2">预计用时：<%=plan[0][0].time %>H</h5>
+				<%if(plan[0][0].state=='review'){%>
+					<h5 class="col-sm-2">状态：审核中</h5>
+				<%}else{%>
+					<h5 class="col-sm-2">状态：审核通过</h5>
+				<%}%>
+			 <h5 class="col-sm-3">制作标准存放路径：<%=plan[0][0].val_path.replace(/\//g, '\\') %></h5>
+				<%if(plan[0][0].msg!==""){%>
+					<h5 class="col-sm-3">主管留言：<%=plan[0][0].msg %> </h5>	
+				<%}%>
+			 </div> 
+			 <%if(plan[0][0].state=='review'){%>
+				 <p class="col-sm-12"><button onclick="jQuery('#modal-6').modal('show', {backdrop: 'static'});" class="btn btn-blue">审核</button></p>
+			 <%}%>
+		 </div>	 
+         <%  }else {%>
+		  <div class="panel-body">
+			  还没有创建次日计划
+			</div>   
+ 		  <%  }%>
+      </div>
+	<% if(same_day!==''){%>
+		<div class="panel col-sm-12 panel-default">
+			 <div class="panel-heading">
+								<h3 class="panel-title"><%=same_day%></h3>
+								<div class="panel-options">
+									<a href="#" data-toggle="panel">
+										<span class="collapse-icon">–</span>
+										<span class="expand-icon">+</span>
+									</a>
+									<a href="#" data-toggle="remove">
+										×
+									</a>
+								</div>
+							</div>
+			 <div class="panel-body">
+				 <div class="panel-color panel-color-e1f7ff">
+						<h5 class="margin_t15_b15 padding-left-15"><b>工作计划：</b></h5> 
+						<p class="col-sm-12"><%=plan[1][0].contant %></p>
+						<div class="col-sm-12 padding-left-0  ">
+						 <h5 class="col-sm-2">预计进度：<%=plan[1][0].plan %>%</h5>
+						 <h5 class="col-sm-2">预计用时：<%=plan[1][0].time %>H</h5>
+						 <%if(plan[1][0].state=='review'){%>
+							 <h5 class="col-sm-2">状态：审核中</h5>
+						 <%}else{%>
+							 <h5 class="col-sm-2">状态：审核通过</h5>
+						 <%}%>
+						 <h5 class="col-sm-3">制作标准存放路径：<%=plan[1][0].val_path.replace(/\//g, '\\') %></h5>
+						<h5 class="col-sm-3">主管留言：XXXXXXXXXXXXXXXXXXXXXXX </h5>	
+							<%if(plan[1][0].state=='review'){%>
+								 
+									 <p class="col-sm-12"><button onclick="jQuery('#modal-7').modal('show', {backdrop: 'static'});" class="btn btn-blue">审核</button></p>
+							    
+							<%} %>
+						 </div>
+					 </div>
+						<% if(plan[1][0].star_time!==null){%>
+							<div class="panel-color panel-color-fffae1">
+								 <h5 class="margin_t15_b15 padding-left-15"><b>开始制作时间：</b></h5> 
+								<p class="col-sm-12"><%=oStar_time%></p>
+								<% if(plan[2].length==0){%>  
+									<p class="col-sm-12"><button  onclick="jQuery('#modal-7').modal('show', {backdrop: 'static'});"  id="star_shen" class="btn btn-blue">提交审核</button></p>	
+								<% }%>
+							 </div>
+						<% }%>
+				 
+				  <% if(plan[2].length!==0){%>
+					<% for(var i=0;i<plan[2].length;i++){%>
+					 <% if(plan[2][i].tuichi=="true"){%>
+						 	   <div class="panel-color  panel-color-e9e1ff">
+								<h5 class="margin_t15_b15 padding-left-15"><b>推迟申请：</b></h5>
+							  <%}else{%>
+							  <div class="panel-color panel-color-ffe1e1">
+							  <h5 class="margin_t15_b15 padding-left-15"><b>提交审核：</b></h5>
+							  <%}%>
+								<p class="col-sm-12"><%=plan[2][i].remark %></p> 
+								<div class="col-sm-12">
+								 <h5 class="col-sm-2 padding-left-0 ">制作进度：<%=plan[2][i].plan %>%</h5>
+								 <h5 class="col-sm-2">用时：<%=plan[2][i].time_old %>H</h5>
+								 <h5 class="col-sm-3">工作成果存放路径：<%=plan[2][i].val_path.replace(/\//g, '\\') %></h5>
+								 <h5 class="col-sm-3">审核提交时间： <%=plan[2][i].time%></h5>
+									<p class="col-sm-12 red_hr"></p>
+									<%if(plan[2][i].state=='review'){ %>
+									 <p class="col-sm-12"><button onclick="jQuery('#modal-8').modal('show', {backdrop: 'static'});" class="btn btn-blue id_sh" id="<%=plan[2][i].id %>">审核</button></p>
+									<%}else if(plan[2][i].state=='rejected'){ %>
+										<h5 class="col-sm-12 "><b>被驳回：</b></h5> 
+										<p class="col-sm-12 "><%=plan[2][i].message %></p>
+										<p class="col-sm-12  ">驳回时间：<%=plan[2][i].audit_time %></p>
+							
+									<%}else{ %>
+									<h5 class="col-sm-12 "><b>审核通过：</b></h5> 
+									<p class="col-sm-12 "><%=plan[2][i].message %></p>
+									<p class="col-sm-12  margin_t10_b25">审核通过时间：<%=plan[2][i].audit_time %></p>
+									<%} %>
+								 </div>	
+							 </div>
+					<% }%>
+				  <%} %> 	
+				 
+			 </div>	 
+		 
+		  </div>
+	<%}%>
+	
+ <% if(log_list_all.length!==0){%>			
+ <%for(var i=0;i<log_list_all.length;i++){%>
+	<div class="panel col-sm-12 panel-default">
+			 <div class="panel-heading">
+								<h3 class="panel-title"><%=log_list_all[i][0][0].time_title%></h3>
+								<div class="panel-options">
+									<a href="#" data-toggle="panel">
+										<span class="collapse-icon">–</span>
+										<span class="expand-icon">+</span>
+									</a>
+									<a href="#" data-toggle="remove">
+										×
+									</a>
+								</div>
+							</div>
+			 <div class="panel-body">
+				 <div class="panel-color panel-color-e1f7ff">
+						<h5 class="margin_t15_b15 padding-left-15"><b>工作计划：</b></h5> 
+						<p class="col-sm-12"><%=log_list_all[i][0][0].contant%></p>
+						<div class="col-sm-12 padding-left-0  ">
+						 <h5 class="col-sm-2">预计进度：<%=log_list_all[i][0][0].plan%>%</h5>
+						 <h5 class="col-sm-2">预计用时：<%=log_list_all[i][0][0].time%>H</h5>
+						 <h5 class="col-sm-2">状态：<%=log_list_all[i][0][0].state%></h5>
+						 <h5 class="col-sm-3">制作标准存放路径：<%=log_list_all[i][0][0].val_path.replace(/\//g, '\\')%></h5>
+						<h5 class="col-sm-3">主管留言：<%=log_list_all[i][0][0].msg%> </h5>	
+						 </div>
+					 </div>
+				  <div class="panel-color panel-color-fffae1">
+						 <h5 class="margin_t15_b15 padding-left-15"><b>开始制作时间：</b></h5> 
+						<p class="col-sm-12"><%=log_list_all[i][0][0].state_time%> </p>
+					 </div>  
+				 <% if(log_list_all[i][1]){%>			
+				 <%for(var j=0;j<log_list_all[i][1].length;j++){%>
+				 	<% if(log_list_all[i][1][j].tuichi=="false"){%>
+					  <div class="panel-color panel-color-ffe1e1"> 
+							<h5 class="margin_t15_b15 padding-left-15"><b>提交审核：</b></h5> 
+							<p class="col-sm-12"><%=log_list_all[i][1][j].remark%></p> 
+							<div class="col-sm-12">
+							 <h5 class="col-sm-2 padding-left-0 ">预计进度：<%=log_list_all[i][1][j].plan%>%</h5>
+							 <h5 class="col-sm-2">预计用时：<%=log_list_all[i][1][j].time%>H</h5>
+							 <h5 class="col-sm-3">工作成果存放路径：<%=log_list_all[i][1][j].val_path.replace(/\//g, '\\')%></h5>
+							 <h5 class="col-sm-3">审核提交时间：<%=log_list_all[i][1][j].date%></h5>
+							 </div>	
+						  <p class="col-sm-12 red_hr"></p>
+						  <% if(log_list_all[i][1][j].state=="end"){%>
+						  <div class="col-sm-12">
+							 <h5 class="col-sm-12 "><b>审核通过：</b></h5> 
+							 <p class="col-sm-12 "><%=log_list_all[i][1][j].message%></p>
+							 <p class="col-sm-12  ">审核通过时间：<%=log_list_all[i][1][j].audit_time%></p>
+							 </div>
+						  <%}else if(log_list_all[i][1][j].state=="rejected"){%>
+						  <div class="col-sm-12">
+							 <h5 class="col-sm-12 "><b>被驳回：</b></h5> 
+							 <p class="col-sm-12 "><%=log_list_all[i][1][j].message%></p>
+							 <p class="col-sm-12  ">驳回时间：<%=log_list_all[i][1][j].audit_time%></p>
+							 </div>
+						  <%}else{%>
+						      <h5 class="col-sm-12 "><b>主管未进行审核</b></h5> 
+						   <%}%>
+						 </div>
+				 	<%}else{%>
+				 		<div class="panel-color panel-color-e9e1ff"> 
+							<h5 class="margin_t15_b15 padding-left-15"><b>推迟审核：</b></h5> 
+							<p class="col-sm-12"><%=log_list_all[i][1][j].remark%></p> 
+							<div class="col-sm-12">
+							 <h5 class="col-sm-2 padding-left-0 ">预计进度：<%=log_list_all[i][1][j].plan%>%</h5>
+							 <h5 class="col-sm-2">预计用时：<%=log_list_all[i][1][j].time%>H</h5>
+							 <h5 class="col-sm-3">工作成果存放路径：<%=log_list_all[i][1][j].val_path.replace(/\//g, '\\')%></h5>
+							 <h5 class="col-sm-3">审核提交时间：<%=log_list_all[i][1][j].date%></h5>
+							 </div>	
+						  <p class="col-sm-12 red_hr"></p>
+						  <% if(log_list_all[i][1][j].state=="end"){%>
+						  <div class="col-sm-12">
+							 <h5 class="col-sm-12 "><b>审核通过：</b></h5> 
+							 <p class="col-sm-12 "><%=log_list_all[i][1][j].message%></p>
+							 <p class="col-sm-12  ">审核通过时间：<%=log_list_all[i][1][j].audit_time%></p>
+							 </div>
+						  <%}else{%>
+						  <div class="col-sm-12">
+							 <h5 class="col-sm-12 "><b>被驳回：</b></h5> 
+							 <p class="col-sm-12 "><%=log_list_all[i][1][j].message%></p>
+							 <p class="col-sm-12  ">驳回时间：<%=log_list_all[i][1][j].audit_time%></p>
+							 </div>
+						  <%}%>
+						 </div>
+				    <%}%>
+			    <%}%>	
+				<%}%>
+			 </div>	 
+		  </div>	
+		<%}%>	
+	<%}%>
+    </div>
+    <!-- Main Footer --> 
+    <!-- Choose between footer styles: "footer-type-1" or "footer-type-2" --> 
+    <!-- Add class "sticky" to  always stick the footer to the end of page (if page contents is small) --> 
+    <!-- Or class "fixed" to  always fix the footer to the end of page -->
+       <% include footer.ejs %>
+  </div>
+</div>
+<!-- Modal 1 (Basic)-->
+	<div class="modal fade" id="modal-1">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title">任务结束</h4>
+				</div>
+				
+				<div class="modal-body">
+					你确定要结束这个任务吗？
+				</div>
+				
+				<div class="modal-footer">
+					<button type="button" class="btn btn-white" data-dismiss="modal">返回</button>
+					<button type="button"  id="end_task"   class="btn btn-info">确定</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+<!-- Imported styles on this page -->
+<link rel="stylesheet" href="/www/assets/css/fonts/meteocons/css/meteocons.css">
+
+<!-- Imported styles on this page -->
+<link rel="stylesheet" href="/www/assets/js/daterangepicker/daterangepicker-bs3.css">
+ 
+
+<style type="text/css">
+div.datepicker{
+	 z-index:3000!important;
+	}
+</style>
+
+<!-- Bottom Scripts --> 
+<script src="/www/assets/js/bootstrap.min.js"></script> 
+<script src="/www/assets/js/TweenMax.min.js"></script> 
+<script src="/www/assets/js/resizeable.js"></script> 
+<script src="/www/assets/js/joinable.js"></script> 
+<script src="/www/assets/js/xenon-api.js"></script> 
+<script src="/www/assets/js/xenon-toggles.js"></script> 
+
+<!-- Imported scripts on this page --> 
+<script src="/www/assets/js/jvectormap/jquery-jvectormap-1.2.2.min.js"></script> 
+<script src="/www/assets/js/jvectormap/regions/jquery-jvectormap-world-mill-en.js"></script> 
+<script src="/www/assets/js/xenon-widgets.js"></script> 
+ 
+ 
+<!-- chart --> 
+<script src="/www/assets/js/chart/Chart.bundle.js"></script> 
+<script src="/www/assets/js/chart/utils.js"></script> 
+<script type="text/javascript">
+	 
+			var randomScalingFactor = function() {
+			return Math.round(Math.random() * 100);
+		};
+
+		var config1 = {
+			type: 'doughnut',
+			data: {
+				datasets: [{
+					data: [
+						<%=resure.unfinished%>,
+						<%=resure.t_plan%>, 
+					],
+					backgroundColor: [
+						window.chartColors.red,
+						window.chartColors.blue,
+					],
+					label: 'Dataset 1'
+				}],
+				labels: [
+					'未完成',
+					'完成',
+				]
+			},
+			options: {
+				responsive: true,
+				legend: {
+					position:'right',
+					display: false,
+				},
+				title: {
+					display: false,
+					text: 'Chart.js Doughnut Chart'
+				},
+				animation: {
+					animateScale: true,
+					animateRotate: true
+				}
+			}
+		};
+		 
+	 		
+		$(function($) {
+  		 var ctx1 = document.getElementById('chart-area_1').getContext('2d');
+			window.myDoughnut = new Chart(ctx1, config1);	
+		});
+	
+		var colorNames = Object.keys(window.chartColors);
+	</script>
+<script type="text/javascript">
+				 
+				 
+					
+				//任务结束
+				$("#end_task").click(function(){
+					 $.ajax({
+									//几个参数需要注意一下
+										type: "post",//方法类型
+										dataType: "json",//预期服务器返回的数据类型
+										url: "/controller/i_task/end_task" ,//url 
+										data: {
+												id:'<%=resure.id%>',/*任务ID*/	
+												state:'end',/*状态*/	
+										},
+										success: function (result) {
+											
+											if (result.resultCode == 200) {
+												 window.location.href = '/controller'; 
+											} 
+										},
+										error : function() {
+											alert("异常！");
+										}
+									});
+				});
+				
+ 
+				 
+					
+				}) 
+					 
+				</script>
+<!-- JavaScripts initializations and stuff --> 
+<script src="/www/assets/js/xenon-custom.js"></script>
+</body>
+</html>
+
+
+
+
+
+
+

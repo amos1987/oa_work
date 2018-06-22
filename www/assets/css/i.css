@@ -1,0 +1,150 @@
+/*! normalize.css v3.0.1 | MIT License | git.io/normalize */
+
+.padding-left-0{
+	padding-left: 0px!important;
+}
+.padding_b10{
+	padding-bottom: 10px;
+}
+.inline-block{
+	display: inline!important;
+}
+.width_80{
+	width: 80%!important;
+}
+.border_right{
+	border-right: 1px solid #E7E7E7; 
+}
+.padding-left-15{
+	padding-left: 15px;
+}
+.margin_t15_b15{
+	margin-top: 20px;
+	margin-bottom: 20px!important;
+}
+.panel-color-e1f7ff{
+	background-color: #e1f7ff;
+}
+.panel-color-fffae1{
+	background-color: #fffae1;
+}
+.panel-color-ffe1e1{
+	background-color: #ffe1e1;
+}
+.panel-color-e9e1ff{
+	background-color: #e9e1ff;
+}
+.margin_t10_b10{
+	margin-top: 10px;
+	margin-bottom: 10px!important;
+ 
+}
+.panel-color{
+  overflow:hidden;
+	padding-bottom: 20px;
+	border-bottom: 1px solid  #ccc;
+	margin-bottom: 10px;
+}
+.margin_t10_b25{
+	margin-top: 10px;
+	margin-bottom: 25px!important;
+ 
+}
+.audit_status{
+	margin-left: 10px;
+}
+.col_overflow{
+	overflow: hidden;
+}
+.col_padding{
+	background-color: azure;
+}
+.mail-single-header{
+	    border-bottom: 2px solid #f0f0f0;
+    padding-bottom: 10px;
+	padding-top: 10px;
+    margin-bottom: 20px;
+	overflow: hidden;
+}
+.mail-single-header h2{
+	  float: left;
+    margin: 0;
+    font-size: 23px;
+}
+.mail-single-header-options{
+float: right;
+}
+.mail-single-attachments ul li .name {
+  display: block;
+  margin-top: 12px;
+  color: #717272;
+  font-weight: bold;
+}
+
+.mail-single-attachments ul li .links a {
+  color: #979898;
+}
+.mail-single .mail-single-attachments ul li .links a:hover {
+  color: #646565;
+}
+.mail-single .mail-single-attachments ul.list-inline li {
+  margin-right: 20px;
+}
+
+ .mail-single-attachments ul li .thumb:after {
+  display: block;
+  position: absolute;
+  color: #fff;
+  content: '\f06e';
+  font-family: 'fontawesome';
+  left: 50%;
+  top: 50%;
+  font-size: 22px;
+  z-index: 2;
+  margin-left: -12px;
+  margin-top: -13px;
+  -webkit-transform: scale(0);
+  -moz-transform: scale(0);
+  -o-transform: scale(0);
+  -ms-transform: scale(0);
+  transform: scale(0);
+  -webkit-transition: all 200ms ease-in-out;
+  -moz-transition: all 200ms ease-in-out;
+  -o-transition: all 200ms ease-in-out;
+  transition: all 200ms ease-in-out;
+}
+.pople{
+	font-size: 12px;
+	font-weight: 400;
+	margin-left: 10px;
+}
+.shen_he{
+	padding-top: 45px; 
+	
+}
+.red_hr{
+	height:1px;
+	background-color: #ECC8C8;
+	margin:15px 0!important;
+}
+.shen_he p{
+	width: 120px;
+	margin:  0 auto;
+}
+.shen_he .btn{
+	text-align: center;
+	vertical-align: middle;
+}
+.search_t{
+	font-size:16px;
+	color:#18d026;
+	padding: 0 10px;
+}
+.search_s{
+	padding: 0 15px;
+}
+.search_st{
+	font-size:20px;
+	color:#ff7600;
+	padding: 0 10px;
+}

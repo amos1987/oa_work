@@ -1,0 +1,151 @@
+<% include top.ejs %>
+  <div class="page-title">
+    <div class="title-env">
+      <h1 class="title">项目</h1>
+      <p class="description">project</p>
+    </div>
+    <div class="breadcrumb-env">
+      <ol class="breadcrumb bc-1"> <li> <a href="/director/"><i class="fa-home"></i>首页</a> </li>
+         <li>  <a href="project.html">项目列表</a></li>
+		 <li class="active"> <strong>项目总结</strong> </li>  
+      </ol>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">项目总结</h3>
+        </div>
+        <div class="panel-body form-horizontal">
+ 
+			<% if(data.length==0){%>	
+ 			 <input type="hidden"   id="field-type"  value="new">
+				<%}else{%>
+				 <input type="hidden"   id="field-type"  value="mod">
+				<%}%>
+            <div class="form-group">
+              <label class="col-sm-2 control-label" for="field-1">标题 </label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="field-title"    <% if(data.length!==0){%> value="<%= data[0].title %>"<%}%>   placeholder="请输入标题">
+              </div>
+            </div>
+             
+            <div class="form-group-separator"></div>
+             <div class="form-group">
+				<label class="col-sm-2 control-label">发布时间</label>
+									
+				<div class="col-sm-10">
+					<div class="input-group">
+						<input type="text" class="form-control datepicker" id="field-time" data-start-date="-2d" data-end-date="+1w" placeholder="请选择发布日期"  <% if(data.length!==0){%> value="<%= data[0].time %>"<%}%>  >
+						
+						<div class="input-group-addon">
+							<a href="#"><i class="linecons-calendar"></i></a>
+						</div>
+					</div>
+				</div>
+			</div>
+            
+            <div class="form-group-separator"></div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">总结内容</label>
+							
+				<div class="col-sm-10">
+					<textarea class="form-control wysihtml5" id="field-contant" data-stylesheet-url="/www/assets/js/wysihtml5/lib/css/wysiwyg-color.css" name="sample_wysiwyg" id="sample_wysiwyg" placeholder="请输入项目总结内容">  <% if(data.length!==0){%><%= data[0].contant %><%}%>		 </textarea>	 
+				</div>
+			</div>
+			   <div class="form-group-separator"></div> 
+            <div class="has-error">
+              <label class="col-sm-2 control-label">发布内容</label>
+              <div class="col-sm-10">
+				 <div class="input-group"> 
+                <button type="submit" id="submit" class="btn btn-success">提交</button>
+                <button type="reset" id="reset" class="btn btn-white">重置</button>
+				  </div>	 
+              </div>
+            </div>
+			 
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Main Footer --> 
+  <!-- Choose between footer styles: "footer-type-1" or "footer-type-2" --> 
+  <!-- Add class "sticky" to  always stick the footer to the end of page (if page contents is small) --> 
+  <!-- Or class "fixed" to  always fix the footer to the end of page -->
+    <% include footer.ejs %>
+  </div>
+</div>
+ 
+<script type="text/javascript">
+				$(function(){
+					$("#submit").click(function(){
+						
+						var oType =$("#field-type").val();//提交类型
+						var oTitle =$("#field-title").val();//标题  
+						var oTime =$("#field-time").val();//发布时间
+						var oContant =$("#field-contant").val();//内容
+						 
+						if(oTitle!=="" && oTime!=="" && oContant!=="" ){
+									$.ajax({
+									//几个参数需要注意一下
+										type: "POST",//方法类型
+										dataType: "json",//预期服务器返回的数据类型
+										url: "/director/project/summary" ,//url
+										data: {
+												type:oType,/*提交类型*/
+												title:oTitle,/*标题*/
+												time:oTime,/*发布时间*/
+												contant: oContant,/*内容*/
+												p_number:<%= p_number %>,/*项目单号*/
+										},
+										success: function (result) {
+											console.log(result);//打印服务端返回的数据(调试用)
+											if (result.resultCode == 200) {
+												alert("总结提交成功");
+												window.location.href = '/director/project'; 
+											};
+										},
+										error : function() {
+											alert("异常！");
+										}
+									});
+						   }else{
+						     alert("请填写完成");
+						   }
+						
+						
+						}) ;
+				}) 
+					 
+				</script>
+<!-- Imported styles on this page -->
+<link rel="stylesheet" href="/www/assets/js/daterangepicker/daterangepicker-bs3.css">
+<link rel="stylesheet" href="/www/assets/js/select2/select2.css">
+<link rel="stylesheet" href="/www/assets/js/select2/select2-bootstrap.css">
+<link rel="stylesheet" href="/www/assets/js/multiselect/css/multi-select.css">
+<link rel="stylesheet" href="/www/assets/js/wysihtml5/src/bootstrap-wysihtml5.css">	
+
+<!-- Bottom Scripts --> 
+<script src="/www/assets/js/bootstrap.min.js"></script> 
+<script src="/www/assets/js/TweenMax.min.js"></script> 
+<script src="/www/assets/js/resizeable.js"></script> 
+<script src="/www/assets/js/joinable.js"></script> 
+<script src="/www/assets/js/xenon-api.js"></script> 
+<script src="/www/assets/js/xenon-toggles.js"></script> 
+<script src="/www/assets/js/moment.min.js"></script> 
+
+<!-- time --> 	
+<script src="/www/assets/js/datepicker/bootstrap-datepicker.js"></script>
+<script src="/www/assets/js/timepicker/bootstrap-timepicker.min.js"></script> 
+
+<!-- WYSIHMTL5 -->
+<script src="/www/assets/js/wysihtml5/lib/js/wysihtml5-0.3.0.js"></script>	
+<script src="/www/assets/js/wysihtml5/src/bootstrap-wysihtml5.js"></script>
+	
+<!-- JavaScripts initializations and stuff --> 
+<script src="/www/assets/js/xenon-custom.js"></script>
+</body>
+</html>
