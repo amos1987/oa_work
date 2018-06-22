@@ -12,7 +12,7 @@ const expressRoute=require('express-route');
 var server=express();
 server.listen(8080);
 
-//1.解析cookie  修改
+//1.解析cookie 
 server.use(cookieParser('sdfasl43kjoifguokn4lkhoifo4k3'));
 
 //2.使用session
@@ -28,7 +28,7 @@ server.use(bodyParser.urlencoded({extended: false}));
 server.use(multer({dest: './upload'}).any());
 
 
-//4.配置模板引擎
+//4.配置模板引擎  
 //输出什么东西
 server.set('view engine', 'html');
 //模板文件放在哪儿
