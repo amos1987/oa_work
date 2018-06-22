@@ -28,7 +28,7 @@ server.use(bodyParser.urlencoded({extended: false}));
 server.use(multer({dest: './upload'}).any());
 
 
-//4.配置模板引擎
+//4.配置模板引擎 
 //输出什么东西 
 server.set('view engine', 'html');
 //模板文件放在哪儿
