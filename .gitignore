@@ -59,12 +59,17 @@ typings/
 
 # next.js build output
 .next
+<<<<<<< HEAD
 /数据字典.xls
 /oa_lb.sql
 /www/
 /upload/
 /template/
 /static/
+=======
+/www/
+/template/
+>>>>>>> oa_work/v1.0
 /route/
 /node/
 /libs/
