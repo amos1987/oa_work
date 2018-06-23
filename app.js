@@ -12,7 +12,7 @@ const expressRoute=require('express-route');
 var server=express();
 server.listen(8080);
 
-//1.解析cookie  修改了文件
+//1.解析cookie Da
 server.use(cookieParser('sdfasl43kjoifguokn4lkhoifo4k3'));
 
 //2.使用session
