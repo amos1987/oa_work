@@ -319,6 +319,7 @@ module.exports=function (){
 					}
 					
 				}	
+				console.log(log_list_all);	
 			 res.render('./controller/task_self_con.ejs',{plan,log_list_all,nav_task_self:"ok",same_day:same_day,oStar_time:oStar_time}); 
 				}
 	  })	
