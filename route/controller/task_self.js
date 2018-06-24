@@ -240,7 +240,7 @@ module.exports=function (){
 		        SELECT  *  FROM  log WHERE choose_time='${timestamp_0}' AND t_number='${t_number}';\
 				SELECT  *  FROM  plan WHERE choose_time<'${timestamp_0}' AND t_number='${t_number}';\
 				SELECT  *  FROM  log WHERE choose_time<'${timestamp_0}' AND t_number='${t_number}';\
-				SELECT p_number,p_name,head FROM project WHERE p_number IN (SELECT p_number  FROM task WHERE   id="${id}");\
+				SELECT p_number,p_name,head FROM project WHERE p_number IN (SELECT p_number  FROM task WHERE id="${id}");\
 				SELECT  *  FROM  task WHERE id="${id}";\
 				`, (err, plan) => {
 		  		if (err) {
@@ -286,7 +286,6 @@ module.exports=function (){
 					var i;
 					var log_list_log=[];//数组
 					for(i=0;i<plan[4].length;i++){
-						//console.log(plan[4][i].choose_time);	
 							 
 						if(plan[4][i].choose_time==plan[3][j].choose_time){
 						
@@ -305,21 +304,10 @@ module.exports=function (){
 							 	
 							log_list_log.push({"remark":oRemark,"plan":oPlan,"time_old":oTime_old,"time":oTime,"val_path":oVal_path,"date":oDate,"msg":oMsg,"state":oState,"message":oMessage,"audit_time":oAudit_time,"tuichi":oTuichi});
 							
-							if(i+1>=plan[4].length){
-								var log_list=[log_list_plan,log_list_log];
-								   log_list_all.push(log_list);
-							   }
-						}else{
-							if(i+1>=plan[4].length){
-								var log_list=[log_list_plan];
-								   log_list_all.push(log_list);
-							   }
-							++i;
-						}
+							 
 					}
 					
 				}	
-				console.log(log_list_all);	
 			 res.render('./controller/task_self_con.ejs',{plan,log_list_all,nav_task_self:"ok",same_day:same_day,oStar_time:oStar_time}); 
 				}
 	  })	
