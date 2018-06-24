@@ -303,17 +303,19 @@ module.exports=function (){
 							var	oTuichi=plan[4][i].tuichi;//审核时间
 							 	
 							log_list_log.push({"remark":oRemark,"plan":oPlan,"time_old":oTime_old,"time":oTime,"val_path":oVal_path,"date":oDate,"msg":oMsg,"state":oState,"message":oMessage,"audit_time":oAudit_time,"tuichi":oTuichi});
-							
+							 var log_list=[log_list_plan,log_list_log];
+							 log_list_all.push(log_list);
 							 
 					}
 					
 				}	
-			 res.render('./controller/task_self_con.ejs',{plan,log_list_all,nav_task_self:"ok",same_day:same_day,oStar_time:oStar_time}); 
+			
 				}
-	  })	
+		 res.render('./controller/task_self_con.ejs',{plan,log_list_all,nav_task_self:"ok",same_day:same_day,oStar_time:oStar_time}); 			
+	  }	
 		  
-	  });
-
+	  })
+ 	});
 	
  //[进行中]主管穿插任务审核
 	  router.get('/task_self_task', (req, res)=>{
