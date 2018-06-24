@@ -10,13 +10,10 @@ const expressRoute=require('express-route');
 
 
 var server=express();
-server.listen(8080);
+server.listen(8081);
 
-<<<<<<< HEAD
-//1.解析cookie 
-=======
+
 //1.解析cookie Da
->>>>>>> oa_work/v1.0
 server.use(cookieParser('sdfasl43kjoifguokn4lkhoifo4k3'));
 
 //2.使用session
@@ -31,14 +28,8 @@ server.use(cookieSession({name: 'oa_sess_id', keys: arr, maxAge: 20*3600*1000}))
 server.use(bodyParser.urlencoded({extended: false}));
 server.use(multer({dest: './upload'}).any());
 
-
-<<<<<<< HEAD
-//4.配置模板引擎  
-//输出什么东西
-=======
 //4.配置模板引擎 
 //输出什么东西 
->>>>>>> oa_work/v1.0
 server.set('view engine', 'html');
 //模板文件放在哪儿
 server.set('views', 'template');
